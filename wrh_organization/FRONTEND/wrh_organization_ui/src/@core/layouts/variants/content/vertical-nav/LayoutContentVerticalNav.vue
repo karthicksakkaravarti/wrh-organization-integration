@@ -39,7 +39,9 @@
       ></slot>
     </v-app-bar>
 
-    <slot name="v-app-content"></slot>
+    <slot name="v-app-content">
+      <b>test</b>
+    </slot>
 
     <v-main>
       <app-content-container>

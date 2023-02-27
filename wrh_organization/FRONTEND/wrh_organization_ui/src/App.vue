@@ -37,12 +37,14 @@ import DashboardLayout from '@/layouts/DashboardLayout'
 import useDynamicVh from '@core/utils/useDynamicVh'
 import {appendLinkToHeader, appendStyleToHeader, getQueryParams, notifyDefaultServerError} from "@/composables/utils";
 import AppVersionAlert from "@/components/AppVersionAlert";
+import SetupLayout from '@/layouts/SetupLayout.vue'
 
 export default {
   components: {
     AppVersionAlert,
     BlankLayout,
     SiteLayout,
+    SetupLayout,
     DashboardLayout,
   },
   setup() {

@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'apps.wrh_account',
     'apps.cycling_org',
     'apps.usacycling',
-    'apps.constant_contact'
+    'apps.constant_contact',
+    'apps.setup'
 ]
 
 MIDDLEWARE = [

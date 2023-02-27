@@ -10,7 +10,7 @@ from django.db import transaction
 from rest_framework import serializers
 
 from apps.cycling_org.models import Member, Organization, User, OrganizationMember, OrganizationMemberOrg, \
-    FieldsTracking, Race, RaceResult, Category, RaceSeries, RaceSeriesResult, Event, EventAttachment
+    FieldsTracking, Race, RaceResult, Category, RaceSeries, RaceSeriesResult, Event, EventAttachment, Panels
 from apps.usacycling.models import USACRiderLicense
 from wrh_organization.helpers.utils import DynamicFieldsSerializerMixin, Base64ImageField, get_random_upload_path, \
     verify_turnstile, get_client_ip, check_turnstile_request, SetCurrentUserDefaultSerializerMixin
@@ -62,6 +62,12 @@ class UserMyMemberSerializer(DynamicFieldsSerializerMixin, serializers.ModelSeri
 class USACRiderLicenseSerializer(DynamicFieldsSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = USACRiderLicense
+        fields = '__all__'
+
+
+class PanelsSerializer(DynamicFieldsSerializerMixin, serializers.ModelSerializer):
+    class Meta:
+        model = Panels
         fields = '__all__'
 
 

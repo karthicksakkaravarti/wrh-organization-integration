@@ -56,6 +56,8 @@ from sendsms.backends.base import BaseSmsBackend
 from storages.backends.s3boto3 import S3Boto3Storage
 from twilio.request_validator import RequestValidator
 from twilio.rest import Client as TwilioRestClient
+from apps.setup.models import CustomView
+from apps.setup.rest_api.serializers import CustomViewSerializers
 
 print = functools.partial(print, flush=True)
 
@@ -1214,3 +1216,31 @@ class USACApi:
         else:
             raise AssertionError("not enough arguments")
         return (profile.json() or {}).get('data')
+
+
+def generate_fields(view, model, includeactions=False):
+    try:
+        defaultview = []
+        # Looping fields
+        for field in model._meta.fields:
+            if(view == 'self'):
+                defaultview.append({"value": field.name, "text": field.verbose_name, "is_default": True})
+            else:
+                defaultview.append({"value": field.name, "text": field.verbose_name, "is_default": False})
+        if includeactions :
+            defaultview.append({"value": "actions", "text": "Actions", "is_default": True})
+        return defaultview
+    except Exception as e:
+        return []
+
+
+def generate_customview_list(type):
+    customview_list = CustomViewSerializers(CustomView.objects.filter(type=type), many=True)
+    return customview_list.data
+
+
+def generate_customview(type, id):
+    if id:
+        return CustomViewSerializers(CustomView.objects.get(type=type, id=id)).data
+    else:
+        return CustomViewSerializers(CustomView.objects.get(type=type, is_default=True)).data

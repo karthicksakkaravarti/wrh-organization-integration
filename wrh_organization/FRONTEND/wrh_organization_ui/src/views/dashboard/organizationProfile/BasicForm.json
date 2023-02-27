@@ -1,0 +1,12 @@
+{
+    "data": [
+        {
+            "name": "Title",
+            "fieldtype": "TextField",
+            "sm": "0",
+            "valuelist": [],
+            "value": "",
+            "dbfield": "title"
+        }
+    ]
+}

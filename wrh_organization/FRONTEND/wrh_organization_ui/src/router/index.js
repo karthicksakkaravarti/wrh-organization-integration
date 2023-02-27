@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import axios from "@/axios";
 import store from "@/store";
+import setup from './setup'
 
 Vue.use(VueRouter);
 
@@ -226,6 +227,7 @@ const routes = [
     path: '*',
     redirect: {name: routeNames.ERROR_404}
   },
+  ...setup
 ];
 
 const router = new VueRouter({

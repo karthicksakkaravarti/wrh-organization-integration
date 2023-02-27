@@ -13,6 +13,7 @@
         <v-tab>Basic Info</v-tab>
         <v-tab :disabled="!isEditMode">Attachments</v-tab>
         <v-tab :disabled="!isEditMode">UI Preferences</v-tab>
+        <v-tab :disabled="!isEditMode">Panels</v-tab>
         <v-tab-item class="pt-6">
           <v-card-text class="d-flex">
             <v-avatar rounded size="80" class="me-6 v-avatar-light-bg" color="grey">
@@ -225,6 +226,23 @@
             </v-card-actions>
           </v-form>
         </v-tab-item>
+        <v-tab-item class="pt-6">
+            <!-- Form -->
+            <FormGenerator :Form="panelForm"> </FormGenerator>
+            <!-- Pagination Table -->
+             <ViewList
+            ref="PanelList"
+            end_point ='cycling_org/panels'
+            :options="{
+              store_action_name: 'API',
+            }"
+          ></ViewList>
+          <v-card-actions class="pt-5">
+              <v-spacer></v-spacer>
+              <v-btn color="secondary" outlined @click="hide()">Close</v-btn>
+              <v-btn color="primary" type="submit" :loading="savingPrefs">Save</v-btn>
+            </v-card-actions>
+        </v-tab-item>
       </v-tabs>
     </v-card>
   </v-dialog>
@@ -238,13 +256,15 @@ import {
   mdiClock,
   mdiCloudUploadOutline
 } from '@mdi/js'
-import {ref, computed} from '@vue/composition-api'
+import {ref, computed, onMounted} from '@vue/composition-api'
 import axios from "@/axios";
 import {notifyDefaultServerError, notifySuccess} from "@/composables/utils";
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import GoogleMap from '@/components/GoogleMap.vue';
 import EventAttachmentsTab from "@/views/dashboard/organizationProfile/EventAttachmentsTab.vue";
+import ViewList from '@/components/DataTable/ViewList.vue'
+import FormGenerator from '@/components/Forms/FormGenerator.vue'
 import {EVENT_PUBLISH_TYPE_OPTIONS} from "@/Constants";
 
 export default {
@@ -258,6 +278,8 @@ export default {
     ckeditor: CKEditor.component,
     GoogleMap,
     EventAttachmentsTab,
+    ViewList,
+    FormGenerator
   },
   setup(props, context) {
     const isVisible = ref(false);
@@ -278,6 +300,7 @@ export default {
     const bannerImageRef = ref(null);
     const isEditMode = computed(() => !!record.value.id);
     const gmapApiKey = ref(null);
+    const panelForm = ref()
 
     const loadGmapApiKey = () => {
       axios.get("cycling_org/global_conf/GOOGLE_MAP_API_TOKEN").then(
@@ -429,8 +452,14 @@ export default {
       clearChosenBanner();
       isVisible.value = true;
       clearChosenLogo();
-    };
-
+    }
+    const getForm = (type, form_type) => {
+      axios.get(`setup/forms/get_form/?${type}=` + form_type)
+      .then(data => {
+          panelForm.value = data.data
+      })
+    }
+    onMounted(getForm('form_name', 'panel_form'))
     return {
       isVisible,
       tab,
@@ -460,6 +489,7 @@ export default {
       startDateMenu,
       endDateMenu,
       editor: ClassicEditor,
+      panelForm,
       icons: {
         mdiDelete,
         mdiAlert,

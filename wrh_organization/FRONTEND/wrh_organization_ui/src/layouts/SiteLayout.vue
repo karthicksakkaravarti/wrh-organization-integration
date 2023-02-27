@@ -86,6 +86,7 @@
           </v-btn>
           <app-bar-theme-switcher></app-bar-theme-switcher>
           <theme-color-selection/>
+          <app-setup v-if="$store.getters.isSuperUser"></app-setup> 
           <app-bar-user-menu v-if="$store.getters.isAuthenticated" class="ms-2"></app-bar-user-menu>
         </div>
       </div>
@@ -95,6 +96,10 @@
         absolute
         class="system-bar-overlay"
       ></v-overlay>
+    </template>
+
+    <template #v-app-content>
+      <app-base-drawer />
     </template>
 
     <!-- Slot: footer -->
@@ -114,6 +119,8 @@ import ThemeColorSelection from '@core/layouts/components/app-customizer/ThemeCo
 import AppBarSearch from '@core/layouts/components/app-bar/AppBarSearch.vue'
 import AppBarThemeSwitcher from '@core/layouts/components/app-bar/AppBarThemeSwitcher.vue'
 import AppBarUserMenu from '@/components/AppBarUserMenu.vue'
+import AppBaseDrawer from '@/components/Drawer/AppBaseDrawer.vue'
+import AppSetup from '@core/layouts/components/app-setup/AppSetup.vue'
 
 import {computed, ref} from '@vue/composition-api'
 
@@ -146,7 +153,9 @@ export default {
     AppBarSearch,
     AppBarThemeSwitcher,
     AppBarUserMenu,
-    ThemeColorSelection
+    ThemeColorSelection,
+    AppBaseDrawer,
+    AppSetup,
   },
   setup() {
     const { route } = useRouter();

@@ -27,7 +27,7 @@ from rest_framework.response import Response
 from stripe.error import StripeError
 
 from apps.cycling_org.models import Member, Organization, User, OrganizationMember, OrganizationMemberOrg, \
-    FieldsTracking, Race, RaceResult, Category, RaceSeries, RaceSeriesResult, Event, FinancialTransaction
+    FieldsTracking, Race, RaceResult, Category, RaceSeries, RaceSeriesResult, Event, FinancialTransaction, Panels
 from apps.cycling_org.rest_api.filters import MemberFilter, OrganizationFilter, OrganizationMemberFilter, \
     OrganizationMemberOrgFilter, FieldsTrackingFilter, RaceFilter, RaceResultFilter, CategoryFilter, RaceSeriesFilter, \
     RaceSeriesResultFilter, EventFilter, PublicEventFilter
@@ -39,10 +39,13 @@ from apps.cycling_org.rest_api.serializers import MemberSerializer, Organization
     RaceSeriesSerializer, RaceSeriesResultSerializer, EventSerializer, PublicMemberSerializer, \
     OrganizationJoinSerializer, MyOrganizationMemberSerializer, OrganizationPrefsSerializer, EventPrefsSerializer, \
     OrganizationSignupAndJoinSerializer, SignupAndJoinUserSerializer, EventAttachmentSerializer, \
-    EventSharedOrgPermsSerializer
+    EventSharedOrgPermsSerializer, PanelsSerializer
 from wrh_organization.helpers.utils import account_activation_token, send_sms, IsMemberVerifiedPermission, \
     IsAdminOrganizationOrReadOnlyPermission, account_password_reset_token, to_dict, IsMemberPermission, random_id, \
     APICodeException, check_turnstile_request, OrganizationEventPermission, IsAdminOrganizationPermission
+
+from wrh_organization.helpers.utils import generate_fields, generate_customview_list, \
+    generate_customview
 
 global_pref = global_preferences_registry.manager()
 
@@ -1116,6 +1119,20 @@ class CategoryView(AdminOrganizationActionsViewMixin, viewsets.ModelViewSet):
     }
     search_fields = ['title']
 
+
+class PanelsView(AdminOrganizationActionsViewMixin, viewsets.ModelViewSet):
+    queryset = Panels.objects.all()
+    serializer_class = PanelsSerializer
+    ordering = '-id'
+    ordering_fields = '__all__'
+    search_fields = ['name']
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        response.data['columns'] = generate_fields('self', Panels)
+        response.data['customview_list'] = []
+        response.data['customview'] = []
+        return response
 
 class RaceSeriesView(AdminOrganizationActionsViewMixin, viewsets.ModelViewSet):
     queryset = RaceSeries.objects.all()

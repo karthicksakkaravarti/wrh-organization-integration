@@ -321,7 +321,6 @@ class Organization(models.Model):
     def __str__(self):
         return f'{self.name}'
 
-
 class Member(models.Model):
     SOCIAL_MEDIA_SCHEMA = {
         'zwift': {
@@ -648,3 +647,20 @@ class FinancialTransaction(models.Model):
 
     def __str__(self):
         return str(self.amount)
+
+
+class Panels(models.Model):
+    """
+    To store multiple panel information
+    """
+    TYPE_IFRAME = 0
+    PANEL_TYPE = (
+        (TYPE_IFRAME, 'IFRAME'),
+    )
+    event = models.ForeignKey(Event, on_delete=models.SET_NULL, null=True, verbose_name="Event")
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True, verbose_name="Organization")
+    title = models.CharField(max_length=200, verbose_name="Panel Title")
+    more_data = models.JSONField(null=True, blank=True, encoder=JSONEncoder, verbose_name="More Data")
+    panel_type = models.CharField(max_length=10, choices=PANEL_TYPE, verbose_name="Panel Type")
+    create_datetime = models.DateTimeField(default=timezone.now, verbose_name="Created Date")
+
