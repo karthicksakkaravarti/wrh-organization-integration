@@ -19,7 +19,9 @@ on:
 jobs:
   check-dist:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: 'wrh_organization/FRONTEND/wrh_organization_ui'
     steps:
       - uses: actions/checkout@v3
 
