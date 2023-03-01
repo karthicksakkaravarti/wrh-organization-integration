@@ -155,6 +155,22 @@
               <span class="font-weight-medium me-2">Address 2:</span>
               <span class="text--secondary">{{ memberData.address2 }}</span>
             </v-list-item>
+            <v-list-item dense class="px-0 mb-n2">
+              <span class="font-weight-medium me-2">USAC License Number:</span>
+              <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    
+                    <v-alert v-bind="attrs"
+                      v-on="on" class="ma-0 pa-1" border="left" dense outlined text
+                      :type="memberData.usac_license_number_verified ? 'success' : 'error'"
+                    >{{memberData.usac_license_number ? memberData.usac_license_number : '-' }}
+                    </v-alert>
+                  </template>
+                  <span>{{memberData.usac_license_number_verified ? 'Verified' : 'Un Verified'}}</span>
+                </v-tooltip>
+
+               
+            </v-list-item>
 
           </v-list>
         </v-card-text>

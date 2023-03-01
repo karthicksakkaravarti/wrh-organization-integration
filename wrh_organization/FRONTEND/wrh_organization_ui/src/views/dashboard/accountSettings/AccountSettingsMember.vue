@@ -144,7 +144,21 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
-
+          <v-col cols="12" md="6">
+            <v-text-field
+               :disabled="accountData.usac_license_number_verified"
+               :color="accountData.usac_license_number_verified ? 'success' : 'warning'"
+                :prepend-icon="accountData.usac_license_number_verified ? icons.mdiCheck : icons.mdiAlert"
+                v-model="accountData.usac_license_number"
+                outlined
+                label="USAC License# (optional)"
+                placeholder="USAC License# (optional)"
+                hide-details
+                class="mb-3"
+                :rules="[]"
+                dense
+              ></v-text-field>
+          </v-col>
           <v-col cols="12" md="6">
             <v-text-field
               v-model="accountData.phone"
@@ -277,7 +291,7 @@
 </template>
 
 <script>
-import { mdiAlertOutline, mdiCloudUploadOutline, mdiEmailSend, mdiCalendar} from '@mdi/js'
+import { mdiAlertOutline, mdiCloudUploadOutline, mdiEmailSend, mdiCalendar , mdiCheck, mdiAlert} from '@mdi/js'
 import {nextTick, onMounted, ref} from '@vue/composition-api'
 import axios from "@/axios";
 import store from "@/store";
@@ -418,6 +432,8 @@ export default {
         mdiCloudUploadOutline,
         mdiEmailSend,
         mdiCalendar,
+        mdiCheck,
+        mdiAlert
       },
     }
   },

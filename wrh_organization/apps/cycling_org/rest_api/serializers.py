@@ -89,11 +89,13 @@ class MyMemberSerializer(DynamicFieldsSerializerMixin, serializers.ModelSerializ
     class Meta:
         model = Member
         fields = "__all__"
-        read_only_fields = ('user', 'phone_verified', 'email_verified', 'usac_license_number',
+        read_only_fields = ('user', 'phone_verified', 'email_verified',
                             'usac_license_number_verified')
 
     @transaction.atomic()
     def update(self, instance, validated_data):
+        if instance.usac_license_number_verified:
+            validated_data.pop('usac_license_number')
         user_data = validated_data.pop('user', {})
         if user_data:
             user = instance.user
