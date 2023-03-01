@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="align-start">
-      <span>Teams, Clubs and Regional organizations</span>
+      <span>Organizations: Regional, Clubs, Promoters</span>
     </v-card-title>
     <v-divider></v-divider>
 

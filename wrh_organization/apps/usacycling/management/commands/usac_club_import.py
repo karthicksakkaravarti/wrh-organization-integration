@@ -5,6 +5,10 @@ import requests
 from django.core.management import BaseCommand
 from apps.usacycling import models
 
+"""
+Load USA Clubs: python manage.py usac_club_import
+"""
+
 
 class Command(BaseCommand):
 

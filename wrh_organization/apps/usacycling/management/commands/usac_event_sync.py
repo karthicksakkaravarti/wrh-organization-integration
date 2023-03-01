@@ -11,6 +11,10 @@ import datetime
 
 from apps.usacycling.rest_api.serializers import USACEventSerializer
 
+"""
+Load USA Events: python manage.py usac_event_sync
+"""
+
 
 class Command(BaseCommand):
 

@@ -1,3 +1,9 @@
+Org. based event and result panels for embedding into websites
+- Race result widget filtered to the ORG.
+   /widgets/race-results/:ORG_ID/
+- Widget url for events listed in the ORG calendar only
+   /widgets/events-calendar/:org_id/
+
 # Materio - Vuetify Vuejs Admin Template
 
 > Thank you for purchasing our template 🥂
@@ -5,6 +11,7 @@
 ## Installation
 
 > We recommend you use yarn
+> Change to directory `wrh_organization/FRONTEND/wrh_organization_ui`
 
 1. Install all packages
 
@@ -12,6 +19,13 @@
    yarn
 
    # npm install [for npm]
+   
+   # to reset
+   # be sure you are using node version 16 or lower
+   # remove previous node_modules folder
+   npm install --force
+   npm install vue@2.6.14 vue-template-compiler@2.6.14 --force
+   npm run serve
    ```
 
 2. Run development server

@@ -94,7 +94,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                v-model="registerForm.usac_license_number"
+                v-model="registerForm.member.usac_license_number"
                 outlined
                 label="USAC License# (optional)"
                 placeholder="USAC License# (optional)"
@@ -304,7 +304,7 @@ export default {
     const stripeElementIsReady = ref(false);
     const accountMode = ref('sign-up');
     const loginForm = ref({});
-    const registerForm = ref({});
+    const registerForm = ref({member: {}});
     const turnstileSiteKey = ref(null);
     const aggrementDialog = ref(false);
     const aggrementAccept = ref(false);
