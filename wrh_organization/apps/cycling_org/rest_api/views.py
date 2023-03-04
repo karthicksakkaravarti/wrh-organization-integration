@@ -910,7 +910,7 @@ class OrganizationMemberView(OrganizationMembershipMixin, viewsets.ModelViewSet)
         if request.GET.get('export', None) == 'csv':
             organization = self.get_current_org()
             ExportHistory.objects.create(type=f"'{organization.name} - OrganizationMember'", user=request.user)
-            return download_csv(self.queryset, filename='MemberExport', type='OrganizationMember')
+            return download_csv(self.get_queryset(), filename='MemberExport', type='OrganizationMember')
         return response
 
 class OrganizationMemberOrgView(OrganizationMembershipMixin, viewsets.ModelViewSet):
@@ -941,7 +941,7 @@ class OrganizationMemberOrgView(OrganizationMembershipMixin, viewsets.ModelViewS
         if request.GET.get('export', None) == 'csv':
             organization = self.get_current_org()
             ExportHistory.objects.create(type=f"'{organization.name} - OrganizationMemberOrg'", user=request.user)
-            return download_csv(self.queryset, filename='MemberOrgExport', type='OrganizationMemberOrg')
+            return download_csv(self.get_queryset(), filename='MemberOrgExport', type='OrganizationMemberOrg')
         return response
 
 class FieldsTrackingView(viewsets.ReadOnlyModelViewSet):
