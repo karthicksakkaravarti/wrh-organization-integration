@@ -189,6 +189,7 @@ class ExportTemplate(JSONPreference):
     verbose_name = 'Global Export Config'
     default = {
         "OrganizationMember": [
+            {"text": "Organization", "value": "organization.name"},
             {"text": "First Name", "value":"member.first_name"},
             {"text": "Last Name", "value": "member.last_name"},
             {"text": "USAC #", "value": "member.usac_license_number"},
