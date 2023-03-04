@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 
 from django.conf import settings
@@ -334,16 +335,40 @@ class SignupUserSerializer(TurnstileCheckSerializerMixin, serializers.ModelSeria
     turnstile_token = serializers.CharField(write_only=True, required=True)
 
     member = SignupMemberSerializer(allow_null=True, required=False)
+    agree_terms = serializers.BooleanField(required=True)
+    agree_waiver = serializers.BooleanField(required=True)
+
+    def validate_agree_terms(self, agree_terms):
+        if not agree_terms:
+            raise serializers.ValidationError('Must accept Privacy policy & Terms')
+        return agree_terms
+
+    def validate_agree_waiver(self, agree_waiver):
+        if not agree_waiver:
+            raise serializers.ValidationError('Must accept Agreement & Waiver')
+        return agree_waiver
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'first_name', 'last_name', 'birth_date', 'gender', 'member', 'turnstile_token')
+        fields = ('email', 'password', 'first_name', 'last_name', 'birth_date', 'gender', 'member', 'turnstile_token', 'agree_terms', 'agree_waiver', 'opt_in_email')
         extra_kwargs = {
             'password': {'write_only': True, 'required': True, 'style': {'input_type': 'password'}},
             'first_name': {'required': True, 'allow_null': False, 'allow_blank': False},
             'last_name': {'required': True, 'allow_null': False, 'allow_blank': False},
             'birth_date': {'required': True, 'allow_null': False},
         }
+
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+        print("data", data)
+        if data.get('agree_terms', False):
+            data['privacy_policy_agree_date'] = datetime.datetime.now()
+        if data.get('agree_waiver', False):
+            data['agreement_waiver_agree_date'] = datetime.datetime.now()
+        if data.get('opt_in_email', False):
+            data['opt_in_email_agree_date'] = datetime.datetime.now()
+
+        return data
 
     @transaction.atomic()
     def create(self, validated_data):

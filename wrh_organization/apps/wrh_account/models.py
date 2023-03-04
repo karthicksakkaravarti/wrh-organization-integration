@@ -29,6 +29,12 @@ class User(AbstractUser):
     more_data = models.JSONField(null=True, encoder=JSONEncoder, editable=False)
     prefs = models.JSONField(null=True, encoder=JSONEncoder, editable=False)
     draft = models.BooleanField(default=False, null=False, editable=False)
+    agree_terms = models.BooleanField()
+    privacy_policy_agree_date = models.DateTimeField()
+    agree_waiver = models.BooleanField()
+    agreement_waiver_agree_date = models.DateTimeField()
+    opt_in_email = models.BooleanField(default=False)
+    opt_in_email_agree_date = models.DateTimeField(null=True, blank=True)
     # verified_email = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
