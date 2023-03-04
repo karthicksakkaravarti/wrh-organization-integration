@@ -2,7 +2,7 @@
 
 ## Deploy:
 1. On local dev run build_release.sh. This will build the frontend, tag the release and push to master.
-2. On server, dev or prod, run wrh_organization_deploy (deploy.sh) Thsi will pull the latest build.
+2. On server, dev or prod, run `wrh_organization_deploy` (not deploy.sh) This will pull the latest build.
 
 ## Installing:
 

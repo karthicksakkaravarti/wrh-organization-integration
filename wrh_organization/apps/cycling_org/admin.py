@@ -7,7 +7,7 @@ from django.template.defaultfilters import truncatewords
 from django.urls import path
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
-from dynamic_preferences.admin import GlobalPreferenceAdmin, PerInstancePreferenceAdmin
+from dynamic_preferences.admin import GlobalPreferenceAdmin
 from dynamic_preferences.models import GlobalPreferenceModel
 
 from wrh_organization.helpers.utils import admin_url_wrap, USACApi
@@ -15,9 +15,9 @@ from . import models
 
 
 class OrganizationMemberAdmin(admin.ModelAdmin):
-    list_display = ('id', 'member', 'organization', 'status', 'is_active', 'datetime')
-    list_filter = ('member', 'organization', 'status', 'is_active')
-    search_fields = ('member__first_name', 'member__last_name')
+    list_display = ('id', 'member', 'organization', 'status', 'is_active', 'is_admin')
+    list_filter = ('member', 'organization', 'status', 'is_active', 'is_admin', 'is_master_admin')
+    search_fields = ('member__first_name', 'member__last_name', 'organization')
 
 
 class OrganizationMemberOrgAdmin(admin.ModelAdmin):
@@ -26,8 +26,8 @@ class OrganizationMemberOrgAdmin(admin.ModelAdmin):
 
 
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'email', 'phone', 'user', 'draft')
-    search_fields = ('first_name', 'last_name')
+    list_display = ('id', 'first_name', 'last_name', 'email', 'usac_license_number', 'user', 'draft')
+    search_fields = ('first_name', 'last_name', 'usac_license_number', 'email')
     list_filter = ('email_verified', 'phone_verified')
     change_form_template = "admin/cycling_org/member_changeform.html"
 
@@ -89,7 +89,6 @@ class MemberAdmin(admin.ModelAdmin):
         )
 
 
-
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'type', 'website',)
     search_fields = ('name', 'website', 'email', 'phone')
@@ -98,18 +97,18 @@ class OrganizationAdmin(admin.ModelAdmin):
 
 class RaceAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'event', 'start_datetime',)
-    search_fields = ('name', 'event__name')
+    search_fields = ('name', 'event__name',)
     list_filter = ('event',)
 
 
 class RaceResultAdmin(admin.ModelAdmin):
-    list_display = ('id', 'rider', 'race', 'place',)
-    search_fields = ('race__name', 'rider__first_name', 'rider__last_name')
+    list_display = ('id', 'rider', 'race', 'place' )
+    search_fields = ('race__name', 'rider__first_name', 'rider__last_name',)
     list_filter = ('race',)
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'organization', 'create_by')
+    list_display = ('id', 'title', 'organization', 'create_by',)
     search_fields = ('title',)
     list_filter = ('organization',)
     exclude = ('create_by',)
@@ -133,8 +132,9 @@ class RaceSeriesResultAdmin(admin.ModelAdmin):
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'start_date', 'end_date', 'country', 'city', 'state')
-    search_fields = ('name',)
+    list_display = ('id', 'name', 'start_date', 'is_usac_permitted', 'city', 'organization', 'shared_org_perms')
+    search_fields = ('name', )
+    list_filter = ('is_usac_permitted',)
 
 
 class FinancialTransactionAdmin(admin.ModelAdmin):
@@ -159,7 +159,7 @@ class MyGlobalPreferenceAdmin(GlobalPreferenceAdmin):
             'all': ('dj/admin/css/global_preferences.css',)
         }
 
-    list_display = ('verbose_name', 'name', 'section_name', 'ellipsis_raw_value')
+    list_display = ('verbose_name', 'name', 'section_name', 'ellipsis_raw_value',)
 
     def has_add_permission(self, request, obj=None):
         return False
