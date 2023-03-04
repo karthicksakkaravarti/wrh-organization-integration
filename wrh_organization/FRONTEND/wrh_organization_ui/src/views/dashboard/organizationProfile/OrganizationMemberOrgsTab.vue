@@ -28,6 +28,17 @@
             </template>
             <span>Import member orgs from CSV file</span>
           </v-tooltip>
+          <v-tooltip bottom v-if="organization.my_level.is_admin">
+            <template #activator="{ on, attrs }">
+              <v-btn v-bind="attrs" v-on="on" small outlined color="info" class="me-1" href="/api/v1/cycling_org/organization/1/member_orgs/?export=csv">
+                <v-icon size="18" class="me-1">
+                  {{ icons.mdiExport }}
+                </v-icon>
+                <span>Export</span>
+              </v-btn>
+            </template>
+            <span>Export to CSV</span>
+          </v-tooltip>
         </div>
 
         <v-spacer></v-spacer>
@@ -164,6 +175,7 @@ import {
   mdiCheckCircleOutline,
   mdiCloseCircleOutline,
   mdiRefresh, mdiAccountPlusOutline,
+  mdiExport
 } from '@mdi/js'
 
 import { ref, reactive, watch, onMounted } from '@vue/composition-api'
@@ -257,6 +269,7 @@ export default {
         mdiCloseCircleOutline,
         mdiAccountCancel,
         mdiRefresh,
+        mdiExport
       },
     }
   },
