@@ -648,3 +648,9 @@ class FinancialTransaction(models.Model):
 
     def __str__(self):
         return str(self.amount)
+
+
+class ExportHistory(models.Model):
+    type = models.CharField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='export_history')
+    exported_time = models.DateTimeField(default=timezone.now)
