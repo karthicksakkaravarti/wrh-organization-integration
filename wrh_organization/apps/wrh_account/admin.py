@@ -39,7 +39,7 @@ def send_activation_link(modeladmin, request, queryset):
 
 class UserAdmin(BaseUserAdmin):
     list_display = ['id', 'username', 'first_name', 'last_name', 'gender', 'is_active',
-                    'has_rider_member_account', 'date_joined', 'draft']
+                    'has_rider_member_account', 'date_joined', 'draft', 'agree_terms', 'privacy_policy_agree_date', 'agree_waiver', 'agreement_waiver_agree_date', 'opt_in_email', 'opt_in_email_agree_date']
     actions = [activate_member, send_activation_link]
 
     @admin.display(boolean=True)
