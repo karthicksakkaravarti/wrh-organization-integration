@@ -27,7 +27,7 @@ from rest_framework.response import Response
 from stripe.error import StripeError
 
 from apps.cycling_org.models import Member, Organization, User, OrganizationMember, OrganizationMemberOrg, \
-    FieldsTracking, Race, RaceResult, Category, RaceSeries, RaceSeriesResult, Event, FinancialTransaction
+    FieldsTracking, Race, RaceResult, Category, RaceSeries, RaceSeriesResult, Event, FinancialTransaction, ExportHistory
 from apps.cycling_org.rest_api.filters import MemberFilter, OrganizationFilter, OrganizationMemberFilter, \
     OrganizationMemberOrgFilter, FieldsTrackingFilter, RaceFilter, RaceResultFilter, CategoryFilter, RaceSeriesFilter, \
     RaceSeriesResultFilter, EventFilter, PublicEventFilter
@@ -43,6 +43,8 @@ from apps.cycling_org.rest_api.serializers import MemberSerializer, Organization
 from wrh_organization.helpers.utils import account_activation_token, send_sms, IsMemberVerifiedPermission, \
     IsAdminOrganizationOrReadOnlyPermission, account_password_reset_token, to_dict, IsMemberPermission, random_id, \
     APICodeException, check_turnstile_request, OrganizationEventPermission, IsAdminOrganizationPermission
+from apps.cycling_org.export import download_csv
+
 
 global_pref = global_preferences_registry.manager()
 
@@ -905,6 +907,12 @@ class OrganizationMemberView(OrganizationMembershipMixin, viewsets.ModelViewSet)
 
         return Response({'successed': successed, 'failed': failed}, status=status.HTTP_200_OK)
 
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        if request.GET.get('export', None) == 'csv':
+            ExportHistory.objects.create(type=f"'{Organization.objects.get(id=kwargs.get('org_id')).name} - OrganizationMember'", user=request.user)
+            return download_csv(self.queryset, filename='MemberExport', type='OrganizationMember')
+        return response
 
 class OrganizationMemberOrgView(OrganizationMembershipMixin, viewsets.ModelViewSet):
     queryset = OrganizationMemberOrg.objects.all()

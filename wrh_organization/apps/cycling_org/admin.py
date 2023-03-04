@@ -142,6 +142,11 @@ class FinancialTransactionAdmin(admin.ModelAdmin):
     list_filter = ('type',)
 
 
+class ExportHistoryAdmin(admin.ModelAdmin):
+    list_display = ('type','user', 'exported_time')
+    list_filter = ('type',)
+
+
 class FieldsTrackingAdmin(admin.ModelAdmin):
     list_display = ('id', 'object_id', 'content_type', 'object_repr', 'datetime', 'user')
     search_fields = ('object_repr',)
@@ -177,6 +182,7 @@ admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.RaceSeries, RaceSeriesAdmin)
 admin.site.register(models.Event, EventAdmin)
 admin.site.register(models.FinancialTransaction, FinancialTransactionAdmin)
+admin.site.register(models.ExportHistory, ExportHistoryAdmin)
 
 admin.site.unregister(GlobalPreferenceModel)
 admin.site.register(GlobalPreferenceModel, MyGlobalPreferenceAdmin)
