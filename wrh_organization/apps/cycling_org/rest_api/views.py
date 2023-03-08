@@ -910,8 +910,9 @@ class OrganizationMemberView(OrganizationMembershipMixin, viewsets.ModelViewSet)
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
         if request.GET.get('export', None) == 'csv':
-            ExportHistory.objects.create(type=f"'{Organization.objects.get(id=kwargs.get('org_id')).name} - OrganizationMember'", user=request.user)
-            return download_csv(self.queryset, filename='MemberExport', type='OrganizationMember')
+            organization = self.get_current_org()
+            ExportHistory.objects.create(type=f"'{organization.name} - OrganizationMember'", user=request.user)
+            return download_csv(self.get_queryset(), filename='MemberExport', type='OrganizationMember')
         return response
 
 class OrganizationMemberOrgView(OrganizationMembershipMixin, viewsets.ModelViewSet):
@@ -937,6 +938,13 @@ class OrganizationMemberOrgView(OrganizationMembershipMixin, viewsets.ModelViewS
     def import_from_csv(self, request, *args, **kwargs):
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
 
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        if request.GET.get('export', None) == 'csv':
+            organization = self.get_current_org()
+            ExportHistory.objects.create(type=f"'{organization.name} - OrganizationMemberOrg'", user=request.user)
+            return download_csv(self.get_queryset(), filename='MemberOrgExport', type='OrganizationMemberOrg')
+        return response
 
 class FieldsTrackingView(viewsets.ReadOnlyModelViewSet):
     queryset = FieldsTracking.objects.all()

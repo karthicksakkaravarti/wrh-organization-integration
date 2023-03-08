@@ -189,6 +189,7 @@ class ExportTemplate(JSONPreference):
     verbose_name = 'Global Export Config'
     default = {
         "OrganizationMember": [
+            {"text": "Organization", "value": "organization.name"},
             {"text": "First Name", "value":"member.first_name"},
             {"text": "Last Name", "value": "member.last_name"},
             {"text": "USAC #", "value": "member.usac_license_number"},
@@ -203,6 +204,15 @@ class ExportTemplate(JSONPreference):
             {"text": "City", "value": "member.city"},
             {"text": "State", "value": "member.state"},
             {"text": "Zipcode", "value": "member.zipcode"}
+        ],
+        "OrganizationMemberOrg": [
+            {"text": "Org Name", "value": "member_org.name"},
+            {"text": "Membership Price", "value": "membership_price"},
+            {"text": "Start Date", "value": "start_date"},
+            {"text": "Exp Date", "value": "exp_date"},
+            {"text": "Member Fields", "value": "member_fields"},
+            {"text": "Status", "value": "status"},
+            {"text": "Satetime", "value": "datetime"},
         ]
     }
 
