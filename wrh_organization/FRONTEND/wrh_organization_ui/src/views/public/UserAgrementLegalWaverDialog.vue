@@ -17,7 +17,7 @@
                   small
                   class="pl-0 pr-1 pb-1"
                 >
-                  Agreement & Waiver
+                  Release Waiver
                 </v-btn>
               </template>
               Agreement & Waiver

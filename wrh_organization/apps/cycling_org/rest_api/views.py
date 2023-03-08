@@ -499,7 +499,7 @@ class OrganizationView(viewsets.ModelViewSet):
         OrganizationMember.objects.create(organization=serializer.instance, is_master_admin=True,
                                           member=self.request.user.member)
 
-    def process_payment(self, org, user, token, price):
+    def process_payment(self, org, user, token, price, org_member_price, donation):
         if not token:
             raise APICodeException(status_code=status.HTTP_400_BAD_REQUEST, detail='payment token not provided')
 
@@ -508,7 +508,8 @@ class OrganizationView(viewsets.ModelViewSet):
                 amount=int(price * 100),
                 currency='usd',
                 source=token,
-                description='Org Membership #{}<{}> of user #{}<{}>'.format(org.id, org.name, user.id, user.username)
+                description=f'Membership, {org.id}, {org.name}, user, {user.id}, {user.username}',
+                metadata={'org_id': org.id, 'user_id': user.id, 'membership': org_member_price, 'donation': donation}
             )
         except StripeError as e:
             traceback.print_exc()
@@ -546,7 +547,8 @@ class OrganizationView(viewsets.ModelViewSet):
 
         exp_date = start_date + timedelta(days=Organization.PERIODS_DAYS[plan['period']])
         plan['donation'] = decimal.Decimal(data.get('donation') or 0)
-        membership_price = decimal.Decimal(plan.get('price') or 0) + plan['donation']
+        org_member_price = decimal.Decimal(plan.get('price') or 0)
+        membership_price = org_member_price + plan['donation']
 
         new_om = OrganizationMember.objects.create(
             member=user.member, organization=org, start_date=start_date, exp_date=exp_date,
@@ -561,7 +563,7 @@ class OrganizationView(viewsets.ModelViewSet):
 
         if membership_price:
             token = data.get('token')
-            self.process_payment(org, user, token, membership_price)
+            self.process_payment(org, user, token, membership_price, org_member_price, plan['donation'])
 
         return new_om
 
