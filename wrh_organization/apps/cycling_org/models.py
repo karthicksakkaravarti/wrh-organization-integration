@@ -614,7 +614,7 @@ class RaceSeries(models.Model):
 
 
 class RaceSeriesResult(models.Model):
-    race_series = models.ForeignKey(RaceSeries, on_delete=models.CASCADE, related_name="race_series_result")
+    race_series = models.ForeignKey(RaceSeries, on_delete=models.CASCADE)
     race_result = models.ForeignKey(RaceResult, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     place = models.IntegerField(validators=[MinValueValidator(1)], null=True)
