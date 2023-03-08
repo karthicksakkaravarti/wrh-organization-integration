@@ -546,6 +546,8 @@ class Race(models.Model):
     def __str__(self):
         return self.name
 
+# series_obj = models.RaceSeries.objects.get(name='RS 1')
+# series_obj.races.all()
 
 class RaceResult(models.Model):
     FINISH_STATUS_OK = 'ok'
@@ -558,7 +560,7 @@ class RaceResult(models.Model):
     )
 
     rider = models.ForeignKey(Member, on_delete=models.SET_NULL, null=True, related_name='race_results')
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE, related_name='race_result')
     place = models.IntegerField(validators=[MinValueValidator(1)], null=True)
     finish_status = models.CharField(max_length=16, default=FINISH_STATUS_OK, choices=FINISH_STATUS_CHOICES)
     more_data = models.JSONField(null=True, blank=True, encoder=JSONEncoder)

@@ -200,6 +200,16 @@
           </template>
         </v-checkbox>
         <user-agrement-legal-waver-dialog ref="uglw"></user-agrement-legal-waver-dialog>
+        <v-checkbox
+          hide-details
+          class="mt-1 agree-terms"
+          v-model="registerForm.opt_in_email"
+        >
+          <template #label>
+            <span class="">Opt-In to Email Communications</span>
+          </template>
+          
+        </v-checkbox>
         <turnstile-component v-if="turnstileSiteKey" ref="turnstileCmpRef"
                              id="signup-turnstile-widget"
                              :sitekey="turnstileSiteKey"
@@ -284,6 +294,7 @@ export default {
     const formValid = ref(false);
     const showBirthDateMenu = ref(false);
     const birthDatePickerRef = ref(null);
+    const uglw = ref() //agree_waiver
     const registerForm = ref({member: {country: "US"}, turnstile_token: null});
 
     const socialLink = [
@@ -340,6 +351,7 @@ export default {
 
     const register = () => {
       registering.value = true;
+      registerForm.value.agree_waiver = uglw.value.agreementAccept
       axios.post("cycling_org/users/registration", registerForm.value).then((response) => {
         registering.value = false;
         notifySuccess("You must activate your account using the link sent to your email, before logging in.", 0);
@@ -361,6 +373,7 @@ export default {
       showBirthDateMenu,
       birthDatePickerRef,
       register,
+      uglw,
       turnstileSiteKey,
       onVerifyTurnstile,
       onFailTurnstile,
