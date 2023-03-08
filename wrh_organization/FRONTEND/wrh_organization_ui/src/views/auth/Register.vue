@@ -206,7 +206,7 @@
           v-model="registerForm.opt_in_email"
         >
           <template #label>
-            <span class="">Opt. In email</span>
+            <span class="">Opt-In to Email Communications</span>
           </template>
           
         </v-checkbox>
