@@ -194,7 +194,7 @@
         <v-divider></v-divider>
         <v-card-text>
           <h3 class="mb-2">
-            Please donate to support this We Race Here project and Bicycle Colorado:
+            Please donate to support this We Race Here project and Bicycle Colorado advocacy:
           </h3>
           <v-row>
             <v-col cols="12">

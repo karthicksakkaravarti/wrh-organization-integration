@@ -2,7 +2,7 @@
   <v-dialog v-model="isVisible" max-width="800px">
     <v-card>
       <v-card-title class="headline">
-        Terms of Service
+        Terms of Use
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
