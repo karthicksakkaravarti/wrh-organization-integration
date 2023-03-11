@@ -20,33 +20,7 @@
             ></v-text-field>
           </div>
         </v-col>
-        <v-col cols="12" md="3" sm="6">
-          <v-autocomplete
-              v-model="tableFiltering.organization"
-              dense
-              label="Filter by Organization"
-              :items="organizations"
-              item-text="name"
-              item-value="id"
-              :menu-props="{contentClass:'list-style'}"
-              :loading="loadingOrganizations"
-              no-data-text="No Organization Found!"
-              hide-details
-              clearable
-              return-object
-          >
-            <template #item="data">
-              <v-list-item-content>
-                <v-list-item-title class="text-sm">
-                  {{ data.item.name }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ ($const.ORGANIZATION_TYPE_MAP[data.item.type] || {}).title || data.item.type }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </template>
-          </v-autocomplete>
-        </v-col>
+       
         <v-col cols="12" md="3" sm="6">
           <v-menu v-model="fromDateMenu" :close-on-content-click="false"
               :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
@@ -71,8 +45,16 @@
               </v-date-picker>
             </v-menu>
           </v-col>
+          <v-col cols="12" md="3" sm="6">
+          <v-switch
+          class="mt-0"
+          dense
+            v-model="tableFiltering.is_usac_permitted"
+            label="USAC Permitted"
+          ></v-switch>
+        </v-col>
           <v-col cols="12" md="1" sm="6">
-            <v-menu offset-y>
+            <v-menu offset-y :close-on-click="flase" :close-on-content-click="false">
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon title="More Filter" v-bind="attrs"
                       v-on="on">{{ icons.mdiDotsVertical }}</v-icon>
@@ -80,15 +62,34 @@
                   <v-list>
                     <v-list-item
                     >
-                    <v-container
-                        class="px-0"
-                        fluid
-                      >
-                        <v-switch
-                        v-model="tableFiltering.is_usac_permitted"
-                          label="USAC Permitted"
-                        ></v-switch>
-                      </v-container>
+                    More Filters
+                    </v-list-item>
+                    <v-list-item>
+                      <v-autocomplete
+                        v-model="tableFiltering.organization"
+                        dense
+                        label="Filter by Organization"
+                        :items="organizations"
+                        item-text="name"
+                        item-value="id"
+                        :menu-props="{contentClass:'list-style'}"
+                        :loading="loadingOrganizations"
+                        no-data-text="No Organization Found!"
+                        hide-details
+                        clearable
+                        return-object
+                    >
+                      <template #item="data">
+                        <v-list-item-content>
+                          <v-list-item-title class="text-sm">
+                            {{ data.item.name }}
+                          </v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ ($const.ORGANIZATION_TYPE_MAP[data.item.type] || {}).title || data.item.type }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </template>
+                    </v-autocomplete>
                     </v-list-item>
                   </v-list>
                 </v-menu>
