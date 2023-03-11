@@ -70,7 +70,13 @@
         class="text-no-wrap"
         :item-class="tableRowClass"
         :footer-props="{'items-per-page-options': $const.DEFAULT_TABLE_PER_PAGE_OPTIONS, 'show-current-page': true, 'show-first-last-page': true}"
+        show-expand
       >
+      <template v-slot:expanded-item="{ headers, item }">
+      <td :colspan="headers.length">
+        <OrganizationMembersTab :organization="{'id': item._member_org.id, 'my_level': {'is_admin': false }}"></OrganizationMembersTab>
+      </td>
+    </template>
         <template #item.datetime="{item}">
           <span class="pr-1">{{$utils.formatDate(item.datetime, 'M/D/YY')}}</span>
           <span class="text-caption">{{$utils.formatDate(item.datetime, 'HH:mm')}}</span>
@@ -184,13 +190,15 @@ import axios from "@/axios";
 import {notifyDefaultServerError, refineVTableOptions} from "@/composables/utils";
 import {avatarText} from "@core/utils/filter";
 import OrganizationMemberOrgFormDialog from "@/views/dashboard/organizationProfile/OrganizationMemberOrgFormDialog";
+import OrganizationMembersTab from "@/views/dashboard/organizationProfile/OrganizationMembersTab";
 import OrganizationImportMemberOrgsDialog
   from "@/views/dashboard/organizationProfile/OrganizationImportMemberOrgsDialog";
 
 export default {
   components: {
     OrganizationImportMemberOrgsDialog,
-    OrganizationMemberOrgFormDialog
+    OrganizationMemberOrgFormDialog,
+    OrganizationMembersTab
   },
   props: {
     organization: {

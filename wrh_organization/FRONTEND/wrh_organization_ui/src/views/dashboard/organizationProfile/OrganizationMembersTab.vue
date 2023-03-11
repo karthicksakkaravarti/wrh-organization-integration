@@ -28,7 +28,7 @@
             </template>
             <span>Import members from CSV file</span>
           </v-tooltip>
-          <v-tooltip bottom v-if="organization.my_level.is_admin">
+          <v-tooltip bottom >
             <template #activator="{ on, attrs }">
               <v-btn v-bind="attrs" v-on="on" small outlined color="info" class="me-1" href="/api/v1/cycling_org/organization/1/members/?export=csv">
                 <v-icon size="18" class="me-1">
