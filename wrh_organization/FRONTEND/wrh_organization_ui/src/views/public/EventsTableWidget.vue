@@ -298,9 +298,9 @@ export default {
     onMounted(() => {
       loadOrganizations();
     });
-    // onBeforeMount( (() => {
-    //   tableFiltering.value.end_date__gte = new Date().toISOString().split('T')[0];
-    // }))
+    onBeforeMount( (() => {
+      tableFiltering.value.end_date__gte = new Date().toISOString().split('T')[0];
+    }))
 
     return {
       records,
