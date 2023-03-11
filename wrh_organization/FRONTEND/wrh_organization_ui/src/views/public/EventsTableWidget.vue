@@ -59,7 +59,7 @@
               </v-date-picker>
             </v-menu>
           </v-col>
-          <v-col cols="12" md="3" sm="6">
+          <v-col cols="12" md="2" sm="6">
             <v-menu class="pl-2" v-model="toDateMenu" :close-on-content-click="false"
                 :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
               <template v-slot:activator="{ on, attrs }">
@@ -70,6 +70,28 @@
               <v-date-picker v-model="tableFiltering.start_date__lte" color="primary"  @input="toDateMenu = false">
               </v-date-picker>
             </v-menu>
+          </v-col>
+          <v-col cols="12" md="1" sm="6">
+            <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon title="More Filter" v-bind="attrs"
+                      v-on="on">{{ icons.mdiDotsVertical }}</v-icon>
+                  </template>
+                  <v-list>
+                    <v-list-item
+                    >
+                    <v-container
+                        class="px-0"
+                        fluid
+                      >
+                        <v-switch
+                        v-model="tableFiltering.is_usac_permitted"
+                          label="USAC Permitted"
+                        ></v-switch>
+                      </v-container>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
           </v-col>
       </v-row>
     </v-card-text>
@@ -167,6 +189,7 @@ import {
   mdiPencilOutline,
   mdiCalendarPlus,
   mdiShareVariant,
+  mdiDotsVertical
 } from '@mdi/js'
 
 import { ref, watch, onMounted, onBeforeMount } from '@vue/composition-api'
@@ -296,6 +319,7 @@ export default {
         mdiPencilOutline,
         mdiCalendarPlus,
         mdiShareVariant,
+        mdiDotsVertical
       },
     }
   },
