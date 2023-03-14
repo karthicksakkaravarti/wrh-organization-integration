@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:16.3.0-alpine'
+                    // Run the container on the node specified at the
+                    // top-level of the Pipeline, in the same workspace,
+                    // rather than on a new node entirely:
+                    reuseNode true
+                }
+            }
+            steps {
+                dir('wrh_organization/FRONTEND/wrh_organization_ui') {
+                    sh 'yarn install'
+                    sh 'yarn run build'
+                }
+            }
+        }
+        stage('Prep') {
+            steps {
+                sh 'cp .env ./deployment/'
+                sh 'cp -rf wrh_organization/FRONTEND/wrh_organization_ui/dist ./utils/deployment/'
+                sh 'cp requirement.txt ./deployment/'
+            }
+        }
+        stage('Deploy') {
+         steps {
+                dir('deployment') {
+                         sh 'docker build -t wrh-org-image:prd -f Dockerfile .'
+                         script {
+                        try {
+                              sh 'docker rm -f wrh-org'
+                        } catch (Exception e) {
+                              echo 'Exception occurred: ' + e.toString()
+                        }
+                        try {
+                              sh 'docker run -dt --restart=always -p 8001:8001 --name wrh-org wrh-org-image:prd'
+                        } catch (Exception e) {
+                              echo 'Exception occurred: ' + e.toString()
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
