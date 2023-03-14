@@ -21,6 +21,7 @@ pipeline {
         stage('Prep') {
             steps {
                 sh 'touch ./utils/deployment/.env'
+                sh 'touch ./utils/deployment/.git-credentials'
                 sh 'cp local.py ./utils/deployment/'
                 sh 'cp requirements.txt ./utils/deployment/'
                 sh 'cp -rf wrh_organization/FRONTEND/wrh_organization_ui/dist ./utils/deployment/'
