@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sh 'touch ./utils/deployment/.env'
                 sh 'cp local.py ./utils/deployment/'
-                sh 'cp requirement.txt ./deployment/'
+                sh 'cp requirement.txt ./utils/deployment/'
                 sh 'cp -rf wrh_organization/FRONTEND/wrh_organization_ui/dist ./utils/deployment/'
             }
         }
