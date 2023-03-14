@@ -26,7 +26,7 @@ pipeline {
                     sh 'npm install'
                     sh 'npm install vue@2.6.14'
                     sh 'npm install vue-template-compiler@2.6.14'
-                    sh 'npm run serve'
+                    sh 'npm run build'
                 }
             }
         }
