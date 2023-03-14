@@ -1,27 +1,27 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
-            agent {
-                docker {
-                    image 'node:16.3.0-alpine'
-                    // Run the container on the node specified at the
-                    // top-level of the Pipeline, in the same workspace,
-                    // rather than on a new node entirely:
-                    reuseNode true
-                }
-            }
-            steps {
-                dir('wrh_organization/FRONTEND/wrh_organization_ui') {
-                    sh 'yarn install'
-                    sh 'yarn run build'
-                }
-            }
-        }
+//         stage('Build') {
+//             agent {
+//                 docker {
+//                     image 'node:16.3.0-alpine'
+//                     // Run the container on the node specified at the
+//                     // top-level of the Pipeline, in the same workspace,
+//                     // rather than on a new node entirely:
+//                     reuseNode true
+//                 }
+//             }
+//             steps {
+//                 dir('wrh_organization/FRONTEND/wrh_organization_ui') {
+//                     sh 'yarn install'
+//                     sh 'yarn run build'
+//                 }
+//             }
+//         }
         stage('Prep') {
             steps {
-                sh 'touch ./deployment/.env'
-                sh 'cp local.py ./deployment/'
+                sh 'touch ./utils/deployment/.env'
+                sh 'cp local.py ./utils/deployment/'
                 sh 'cp requirement.txt ./deployment/'
                 sh 'cp -rf wrh_organization/FRONTEND/wrh_organization_ui/dist ./utils/deployment/'
             }
