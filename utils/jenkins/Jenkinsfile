@@ -24,8 +24,8 @@ pipeline {
             steps {
                 dir('wrh_organization/FRONTEND/wrh_organization_ui') {
                     sh 'yarn install'
-                    sh 'yarn install vue@2.6.14'
-                    sh 'yarn install vue-template-compiler@2.6.14'
+                    sh 'yarn add vue@2.6.14'
+                    sh 'yarn add vue-template-compiler@2.6.14'
                     sh 'yarn run build'
                 }
             }
