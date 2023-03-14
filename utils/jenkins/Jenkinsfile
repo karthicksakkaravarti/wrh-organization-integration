@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Deploy') {
          steps {
-                dir('deployment') {
+                dir('utils/deployment') {
                          sh 'docker build -t wrh-org-image:prd -f Dockerfile .'
                          script {
                         try {
