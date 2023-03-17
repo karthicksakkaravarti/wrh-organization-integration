@@ -169,7 +169,7 @@ export default {
         logining.value = false;
         var next = (route.value.query.next || '').startsWith('/')? route.value.query.next: {name: route.value.query.next || routeNames.ROOT};
         router.push(next);
-        notifySuccess("Welcome to WRH!", 5000);
+        notifySuccess("Welcome to Bicycle Colorado!", 5000);
       }, (error) => {
         logining.value = false;
         notifyDefaultServerError(error, true);

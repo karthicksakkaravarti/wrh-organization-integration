@@ -14,7 +14,7 @@
         <v-card-text>
           <template v-if="$store.getters.isAuthenticated">
             <h3 class="mb-2">
-              1. You Have an account on WRH. <v-icon color="success">{{ icons.mdiAccountCheck }}</v-icon>
+              1. You Have an account on Bicycle Colorado. <v-icon color="success">{{ icons.mdiAccountCheck }}</v-icon>
               <span class="caption">
                 (logged in by <span class="primary--text font-weight-bold">{{$store.state.currentUser.username}}</span>)
               </span>
@@ -23,7 +23,7 @@
           </template>
           <template v-else-if="accountMode == 'sign-up'">
             <h3 class="mb-2">
-              1. Sign up on WRH:
+              1. Sign up on Bicycle Colorado:
               <span class="caption">
                 (already have an account? <a href="javascript:" @click="accountMode='sign-in'; isPasswordVisible=false">Sign in</a>)
               </span>
@@ -108,7 +108,7 @@
           </template>
           <template v-else>
             <h3 class="mb-2">
-              1. Sign in on WRH:
+              1. Sign in on Bicycle Colorado:
               <span class="caption">
                 (don't have account? <a href="javascript:" @click="accountMode='sign-up'; isPasswordVisible=false">Sign up</a>)
               </span>

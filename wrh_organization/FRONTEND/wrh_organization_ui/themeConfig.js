@@ -2,8 +2,8 @@ import { mdiCheckboxBlankCircleOutline } from '@mdi/js'
 
 const themeConfig = {
   app: {
-    name: 'We Race Here',
-    shortName: 'WRH',
+    name: 'Bicycle Colorado',
+    shortName: 'BC',
     logo: require('@/assets/images/svg/logo.png'),
     isDark: false,
     isRtl: false,

@@ -44,5 +44,5 @@ class WRHEventsIcalFeed(Events):
         return ["Public"]
 
     def item_uid(self, item):
-        return str(item.id) + "@www.werachere.org"
+        return str(item.id) + "@events.bicyclecolorado.org"
 

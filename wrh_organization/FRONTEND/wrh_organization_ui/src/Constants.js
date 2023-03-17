@@ -22,7 +22,7 @@ COUNTRY_OPTIONS.forEach(function(v) {
 
 export const ORGANIZATION_TYPE_OPTIONS = [
   { value: "regional", title: "Regional", css: "success" },
-  { value: "team", title: "Team", css: "primary" },
+  { value: "club", title: "Club", css: "primary" },
   { value: "advocacy_volunteer", title: "Advocacy, Volunteer", css: "info" },
   { value: "promoter", title: "Promoter", css: "error" },
 ];

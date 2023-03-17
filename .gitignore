@@ -115,3 +115,4 @@ venv.bak/
 
 # local system stuff
 **/.DS_Store
+*.code-workspace

@@ -26,9 +26,9 @@ class OrganizationMemberOrgAdmin(admin.ModelAdmin):
 
 
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'email', 'usac_license_number', 'user', 'draft')
+    list_display = ('id', 'first_name', 'last_name', 'email', 'usac_license_number','usac_license_number_verified', 'draft')
     search_fields = ('first_name', 'last_name', 'usac_license_number', 'email')
-    list_filter = ('email_verified', 'phone_verified')
+    list_filter = ('email_verified', 'phone_verified', 'usac_license_number_verified')
     change_form_template = "admin/cycling_org/member_changeform.html"
 
     def get_urls(self):

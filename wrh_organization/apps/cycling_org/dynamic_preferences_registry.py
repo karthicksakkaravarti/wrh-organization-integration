@@ -146,7 +146,7 @@ class SiteUiSignupPageTitle(types.StringPreference):
     section = site_ui
     name = 'signup_page_title'
     verbose_name = 'Signup Page title'
-    default = 'Sign up on WRH'
+    default = 'Sign up on Bicycle Colorado'
 
 
 @global_preferences_registry.register

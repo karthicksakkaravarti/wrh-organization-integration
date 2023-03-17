@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-space-between">
     <span>COPYRIGHT &copy; {{ new Date().getFullYear() }}
-      <a href="https://www.weracehere.org" class="text-decoration-none" target="_blank">WeRaceHere</a>
+      <a href="https://www.bicyclecolorado.org" class="text-decoration-none" target="_blank">Bicycle Colorado</a>
       <span class="d-none d-md-inline">, All rights Reserved</span>
       <span class="pl-1 pr-1">|</span>
       <a href="javascript:" class="text-decoration-none" @click="$refs.termsOfServiceDialogRef.show()">

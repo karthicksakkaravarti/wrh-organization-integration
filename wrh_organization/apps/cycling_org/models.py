@@ -208,12 +208,12 @@ class Organization(models.Model):
     }
 
     TYPE_REGIONAL = 'regional'
-    TYPE_TEAM = 'team'
+    TYPE_CLUB = 'club'
     TYPE_ADVOCACY_VOLUNTEER = 'advocacy_volunteer'
     TYPE_PROMOTER = 'promoter'
     TYPE_CHOICES = (
         (TYPE_REGIONAL, 'Regional'),
-        (TYPE_TEAM, 'Team'),
+        (TYPE_CLUB, 'Club'),
         (TYPE_ADVOCACY_VOLUNTEER, 'Advocacy, Volunteer'),
         (TYPE_PROMOTER, 'Promoter'),
     )
