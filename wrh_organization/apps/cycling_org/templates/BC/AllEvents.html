@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+
+
+
+	<!-- This site is optimized with the Yoast SEO plugin v20.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>We Race Here Events Calendar -</title>
+
+
+	<link rel='stylesheet' id='styles-css'
+		href='https://www.bicyclecolorado.org/wp-content/themes/bicyclecolorado/assets/css/styles.css?v=sddlieertyrtdfgfg7'
+		type='text/css' media='all' />
+
+
+
+
+
+</head>
+
+<body
+	class="page-template page-template-templates page-template-page-colorado-events page-template-templatespage-colorado-events-php page page-id-15847 page-child parent-pageid-20 et_divi_builder et-pb-theme-bicycle colorado et-db">
+
+
+
+	<div class="wrapper">
+
+		<header id="main-header">
+
+
+			<div class="container-fluid">
+				<!-- branding -->
+				<div class="col-xs-4 col-sm-3">
+					<a href="" class="site-logo">
+						<img src="https://www.bicyclecolorado.org/wp-content/uploads/2018/02/BCLogo_RGB_FNL.svg"
+							alt="Bicycle Colorado" title="Bicycle Colorado">
+					</a>
+				</div>
+
+
+			</div>
+
+		</header>
+
+		<!-- banner starts -->
+		<section class="banner colo-events-hero-img">
+			<span class="page-hero-img"
+				></span>
+			<div class="banner-overlay" style="background-color: rgba(94,198,198,0.6);"></div>
+			<span class="page-hero-caption">
+				<strong>Event Calendar</strong>
+			</span>
+		</section>
+		<!-- content -->
+		<section class="content">
+
+			<!-- search form -->
+			<div class="listing-searchmember colo-search">
+				<div class="searchmember-formouter">
+					<form action="#" method="post" class="searchmember-form event-filter">
+						<h2>FILTER: </h2>
+
+						<select name="category" id="filter-events-full-cal">
+							<option value="filter">All Events</option>
+							<!-- <option value="expos-and-festivals">Expos and Festivals</option>
+							<option value="family-friendly">Family-friendly</option>
+							<option value="mountain">Mountain</option>
+							<option value="multi-day-tour">Multi-Day Tour</option>
+							<option value="races">Races</option>
+							<option value="road-and-gravel">Road and Gravel</option>
+							<option value="virtual">Virtual</option>
+							<option value="women">Women+</option> -->
+						</select>
+
+						<div class="calendarfield-outer">
+							<label>From:</label>
+							<div class="cal-input-group">
+								<input
+									type="text" name="start-vis" class="datepicker" id="datepicker1" value="03/17/2023"
+									placeholder="mm/dd/yyyy">
+								<input type="hidden" name="start" class="datepicker" id="datepicker1a" value="20230317"
+									placeholder="mm/dd/yyyy">
+							</div>
+						</div>
+						<div class="calendarfield-outer">
+							<label>To:</label>
+							<div class="cal-input-group">
+								<input
+									type="text" name="end-vis" class="datepicker" id="datepicker2" value="03/24/2023"
+									placeholder="mm/dd/yyyy">
+								<input type="hidden" name="end" id="datepicker2a" value="20230324">
+							</div>
+						</div>
+						<input type="submit" class="filter-submit" value="filter">
+					</form>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+			<div class="colo-events-outer">
+				<div class="container">
+					<h2>- Indicates a Bicycle Colorado Featured Event</h2>
+					<div class="coloevents-inner">
+						<div class="colo-eventsrow">
+							{% for event in Event %}
+							<div class="colo-eventbox">
+								<h3><a href=""
+										class="  ">{{event.name}}</a></h3>
+								<span class="date">{{event.start_date}}</span>
+								<a href=""
+									class="viewevent-btn">View Event</a>
+							</div>
+							{% endfor %}
+
+						</div>
+
+						<div class="blog-detail">
+							<div class="pagination-row">
+								<ol class="wp-paginate font-inherit">
+									<li><span class='page current'>1</span></li>
+								
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+
+</body>
+
+</html>
