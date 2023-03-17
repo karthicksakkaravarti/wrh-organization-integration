@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+    stages {
+    stage('Prep') {
+            steps {
+                sh 'touch ./utils/deployment/.env'
+                sh 'touch ./utils/deployment/.git-credentials'
+                sh 'cp local.py ./utils/deployment/'
+                sh 'cp yarn.lock ./wrh_organization/FRONTEND/wrh_organization_ui'
+                sh 'cp requirements.txt ./utils/deployment/'
+                sh 'cp -rf wrh_organization/FRONTEND/wrh_organization_ui/dist ./utils/deployment/'
+            }
+        }
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:16.3.0-alpine'
+                    // Run the container on the node specified at the
+                    // top-level of the Pipeline, in the same workspace,
+                    // rather than on a new node entirely:
+                    reuseNode true
+                }
+            }
+            steps {
+                dir('wrh_organization/FRONTEND/wrh_organization_ui') {
+                    sh 'yarn install'
+                    sh 'yarn add vue@2.6.14'
+                    sh 'yarn add vue-template-compiler@2.6.14'
+                    sh 'yarn run build'
+                }
+            }
+        }
+
+        stage('Deploy') {
+         steps {
+                dir('utils/deployment') {
+                         sh 'docker build -t wrh-org-image:prd -f Dockerfile .'
+                         script {
+                        try {
+                              sh 'docker rm -f wrh-org'
+                        } catch (Exception e) {
+                              echo 'Exception occurred: ' + e.toString()
+                        }
+                        try {
+                              sh 'docker run -dt --restart=always -p 8001:8001 --name wrh-org wrh-org-image:prd'
+                        } catch (Exception e) {
+                              echo 'Exception occurred: ' + e.toString()
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
