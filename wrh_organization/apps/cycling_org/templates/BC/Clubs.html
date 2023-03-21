@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+
+
+
+	<!-- This site is optimized with the Yoast SEO plugin v20.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>We Race Here Events Calendar -</title>
+
+
+	<link rel='stylesheet' id='styles-css'
+		href='https://www.bicyclecolorado.org/wp-content/themes/bicyclecolorado/assets/css/styles.css?v=sddlieertyrtdfgfg7'
+		type='text/css' media='all' />
+
+
+
+
+
+</head>
+
+<body
+	class="page-template page-template-templates page-template-page-colorado-events page-template-templatespage-colorado-events-php page page-id-15847 page-child parent-pageid-20 et_divi_builder et-pb-theme-bicycle colorado et-db">
+
+
+
+	<div class="wrapper">
+
+
+
+
+		<!-- content -->
+		<section class="content">
+
+			<!-- search form -->
+			<div class="listing-searchmember colo-search">
+				<div class="searchmember-formouter">
+					<form action="#" method="post" class="searchmember-form event-filter">
+						<h2>Search: </h2>
+
+
+
+						<div class="calendarfield-outer">
+							<label>Name:</label>
+							<div class="cal-input-group">
+								<input type="text" name="start-vis" class="datepicker" placeholder="">
+
+							</div>
+						</div>
+
+						<input type="submit" class="filter-submit" value="Search">
+					</form>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+			<div class="colo-events-outer">
+				<div class="container" style="margin-top: 20px;">
+					<table>
+						<tr>
+							<th></th>
+							<th>Name</th>
+							<th>Members</th>
+						  </tr>
+						{% for org in Org %}
+							<!-- <div class="colo-eventbox">
+								<h3><a href="" class="  ">{{event.name}}</a></h3>
+								<span class="date">{{event.start_date}}</span>
+								<a href="" class="viewevent-btn">View Event</a>
+							</div> -->
+							<tr>
+								<th>{{org.logo}}</th>
+								<th>{{org.name}}</th>
+								<th>{{org.members.all.count}}</th>
+							</tr>
+							{% endfor %}
+					</table>
+
+					
+				</div>
+
+
+
+
+			</div>
+
+</body>
+<style>
+	table {
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	td,
+	th {
+		border: 1px solid #dddddd;
+		text-align: left;
+		padding: 8px;
+	}
+
+	tr:nth-child(even) {
+		background-color: #dddddd;
+	}
+</style>
+
+</html>

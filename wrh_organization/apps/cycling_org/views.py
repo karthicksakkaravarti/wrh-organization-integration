@@ -12,7 +12,7 @@ from django_ckeditor_5.views import storage as ck_storage
 from wrh_organization.helpers.utils import get_random_upload_path
 from django.http import HttpResponse
 from .forms import UploadValidateFile
-from .models import Event
+from .models import Event, Organization
 
 from .validators import usac_license_on_record, valid_usac_licenses, wrh_club_match, wrh_bc_member, \
     wrh_club_memberships, wrh_email_match, wrh_local_association, wrh_usac_clubs, usac_club_match, bc_race_ready, \
@@ -94,5 +94,14 @@ class AllEvents(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['Event'] = Event.objects.all()
+        return context
+
+
+class Clubs(TemplateView):
+    template_name = 'BC/Clubs.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Org'] = Organization.objects.all()
         return context
 
