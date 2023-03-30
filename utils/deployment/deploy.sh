@@ -1,7 +1,7 @@
 #!/bin/bash
 git clone https://github.com/karthicksakkaravarti/wrh-organization-integration.git /home/jenkins/wrh-organization
 cd /home/jenkins/wrh-organization
-git checkout master
+git checkout dev2
 mkdir -p media
 
 sudo cp -rf ../nginx.conf  /etc/nginx/nginx.conf
