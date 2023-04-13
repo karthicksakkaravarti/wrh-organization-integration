@@ -25,6 +25,7 @@ from apps.cycling_org.views import ckeditor_upload_file, validate, Clubs, ClubDe
 from apps.cycling_org.views_results import RaceResults
 from apps.cycling_org.views_clubs import join_club
 
+
 # login url https://events.bicyclecolorado.org/static/vue/index.html#/auth?next=%2Fhome
 # logout url https://events.bicyclecolorado.org/static/vue/index.html#/logout
 #  https://events.bicyclecolorado.org/static/vue/index.html#/dashboard/member-profile
