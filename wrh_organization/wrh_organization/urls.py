@@ -21,14 +21,13 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from apps.cycling_org.ical_feed import WRHEventsIcalFeed
 from apps.cycling_org.views import ckeditor_upload_file, validate, Clubs, ClubDetails, ClubReport, Events, EventDetails, \
-    RaceSeriesList, ProfileDetail, BCsignin, Index, SignInView, event_edit, SignupView
+    RaceSeriesList, ProfileDetail, BCsignin, Index, SignInView, event_edit, SignupView, SignOutView, BCPasswordResetDoneView,BCPasswordResetView, SignupViewVue
 from apps.cycling_org.views_results import RaceResults
 from apps.cycling_org.views_clubs import join_club
 
 # login url https://events.bicyclecolorado.org/static/vue/index.html#/auth?next=%2Fhome
 # logout url https://events.bicyclecolorado.org/static/vue/index.html#/logout
 #  https://events.bicyclecolorado.org/static/vue/index.html#/dashboard/member-profile
-
 
 VERSION_PARAM = settings.REST_FRAMEWORK.get('VERSION_PARAM', 'version')
 DEFAULT_VERSION = settings.REST_FRAMEWORK.get('DEFAULT_VERSION', 'v1')
@@ -68,6 +67,10 @@ urlpatterns = [
     # BC - Authentication
     path('signin/', SignInView.as_view(), name='sign-in'),
     path('signup/', SignupView.as_view(), name='sign-up'),
+    path('signup-vue/', SignupViewVue.as_view(), name='sign-up-vue'),
+    path('signout/', SignOutView.as_view(), name='sign-out'),
+    path('password_reset/', BCPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset_done/', BCPasswordResetDoneView.as_view(), name='password_reset_done'),
 ]
 
 if settings.DEBUG:

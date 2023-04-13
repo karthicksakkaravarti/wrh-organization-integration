@@ -1,75 +1,151 @@
 {% extends "BC/base_dv.html" %}
 {% load static %}
 {% block content %}
-    <div class="container">
-        <form method="post">
-            {% csrf_token %}
-            <h1>Sign In</h1>
-            {{ form.username.label_tag }} {{ form.username }}
-            {{ form.password.label_tag }} {{ form.password }}
-            {% if form.errors %}
-                <div class="at-error">
-                    {% for error in form.non_field_errors %}
-                        {{ error }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <input type="submit" value="Login"  class="at-submit">
-        </form>
-    <a href="{% url 'sign-up' %}"> Sign up</a>
+
+<form class="login" method="post">
+  <h2>Welcome!</h2>
+  <p>Please log in</p>
+  {% csrf_token %}
+  {% if form.errors %}
+  <div class="at-error">
+    <div class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      {% for error in form.non_field_errors %}
+          <strong>Error!</strong> {{ error }}
+      {% endfor %}
     </div>
-  <style>
-    /* General styles */
+  </div>
+  {% endif %}
 
 
-.container {
+  {{ form.username.label_tag }} {{ form.username }}
+  {{ form.password.label_tag }} {{ form.password }}
+  <input type="submit" value="Login" class="at-submit">
+
+  <div class="links">
+    <a href="{% url 'sign-up-vue'%}">Register</a>
+    <a href="{% url 'password_reset'%}">Forgot password</a>
+  </div>
+</form>
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+
+.login {
+  margin: 20px auto;
+  padding: 40px 50px;
+  max-width: 500px;
+  border-radius: 5px;
+  background: #fff;
+}
+  .login input {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 40px 0;
+    display: block;
+    box-sizing: border-box;
+    margin: 10px 0;
+    padding: 14px 12px;
+    font-size: 16px;
+    border-radius: 2px;
+    font-family: Raleway, sans-serif;
+  }
+
+.login input[type=text],
+.login input[type=password] {
+  border: 1px solid #c0c0c0;
+  transition: .2s;
 }
 
-/* Login form styles */
-form {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.login input[type=text]:hover {
+  border-color: #e85628;
+  outline: none;
+  transition: all .2s ease-in-out;
 }
 
-form h1 {
+.login input[type=submit] {
+  border: none;
+  background: #e85628;
+  color: white;
+  font-weight: bold;
+  transition: 0.2s;
+  margin: 20px 0px;
+}
+
+.login input[type=submit]:hover {
+  background: black;
+}
+
+  .login h2 {
+    margin: 20px 0 0;
+    color: #5ec6c6;
+    font-size: 28px;
+  }
+
+.login p {
+  margin-bottom: 40px;
+}
+
+.links {
+  display: table;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #c0c0c0;
+  margin-bottom: 10px;
+}
+
+.links a {
+  display: table-cell;
+  padding-top: 10px;
+}
+
+.links a:first-child {
+  text-align: left;
+}
+
+.links a:last-child {
+  text-align: right;
+}
+
+  .login h2,
+  .login p,
+  .login a {
     text-align: center;
-    margin-bottom: 20px;
+  }
+
+.login a {
+  text-decoration: none;
+  font-size: .8em;
 }
 
-.at-input {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+.login a:visited {
+  color: inherit;
 }
 
-.at-submit {
-    padding: 10px;
-    background-color: #e85628;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.login a:hover {
+  text-decoration: underline;
 }
 
-.at-submit:hover {
-    background-color: #000000;
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
 }
 
-.at-error {
-    color: red;
-    margin-bottom: 15px;
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-  </style>
+.closebtn:hover {
+  color: black;
+}
+</style>
 {% endblock%}

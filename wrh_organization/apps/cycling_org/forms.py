@@ -66,9 +66,8 @@ class SignInForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'at-input'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'at-input'}))
 
-
-class SignupForm(forms.Form):
-    first_name = forms.CharField(required=True, label="First Name")
+class SignUpForm(forms.Form):
+    first_name = forms.CharField(required=True, label="First Name", widget=VTextField())
     last_name = forms.CharField(required=True, label="Last Name")
     email = forms.EmailField(required=True, label="Email")
     password = forms.CharField(widget=forms.PasswordInput, required=True, label="Password")

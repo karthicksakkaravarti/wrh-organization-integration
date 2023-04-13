@@ -5,7 +5,7 @@ from datetime import date
 from PIL import Image
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.core.mail import send_mail
@@ -26,13 +26,14 @@ from dynamic_preferences.registries import global_preferences_registry
 
 from apps.cycling_org.models import User
 from wrh_organization.helpers.utils import get_random_upload_path
-from .forms import UploadValidateFile, EventEditForm, SignInForm, SignupForm
+from .forms import UploadValidateFile, EventEditForm, SignInForm, SignUpForm
 from .models import Organization, OrganizationMember, Event, Member, RaceSeries
 from .validators import usac_license_on_record, valid_usac_licenses, wrh_club_match, wrh_bc_member, \
     wrh_club_memberships, wrh_email_match, wrh_local_association, wrh_usac_clubs, usac_club_match, bc_race_ready, \
     bc_individual_cup_ready, bc_team_cup_ready
 from .views_results import races, race_results
 from ..usacycling.models import USACRiderLicense
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
 
 global_pref = global_preferences_registry.manager()
 
@@ -316,16 +317,20 @@ class SignInView(TemplateView):
             return self.render_to_response({'form': form})
 
 
+class SignupViewVue(TemplateView):
+    template_name = 'BC/sign_up_vue.html'
+
+
 class SignupView(TemplateView):
     template_name = 'BC/sign_up.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = SignupForm(self.request.POST or None)
+        context['form'] = SignUpForm(self.request.POST or None)
         return context
 
     def post(self, request, *args, **kwargs):
-        form = SignupForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             # Create the user account
             # Create a new user instance and save it
@@ -350,3 +355,15 @@ class SignupView(TemplateView):
             # Redirect to a success page or the user's dashboard
             return redirect("/")
         return self.render_to_response(self.get_context_data())
+
+
+class SignOutView(TemplateView):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('/')
+
+class BCPasswordResetView(PasswordResetView):
+    template_name = 'BC/password_reset_vue.html'
+
+class BCPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'BC/password_reset_done.html'
