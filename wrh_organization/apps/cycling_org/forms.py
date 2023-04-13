@@ -58,7 +58,8 @@ class EventEditForm(ModelForm):
 class JoinClubForm(ModelForm):
     class Meta:
         model = OrganizationMember
-        fields = ['organization', 'member', 'org_member_uid', 'start_date', 'exp_date', 'status']
+        fields = ['organization', 'member', 'org_member_uid', 'is_admin',  'is_master_admin', 'membership_price', 
+                  'is_active', 'status', 'start_date', 'exp_date', 'member_fields',]
         labels = {'start_date': 'Start Date', 'exp_date': 'Expiration Date'}
 
 

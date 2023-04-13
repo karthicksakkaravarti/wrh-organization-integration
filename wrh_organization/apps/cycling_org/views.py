@@ -117,7 +117,7 @@ def validate(request):
     else:
         # GET method - render upload form
         form = UploadValidateFile()
-    return render(request, 'validate.html', {'form': form})
+    return render(request, 'BCforms/validate.html', {'form': form})
 
 
 class BCsignin(TemplateView):
