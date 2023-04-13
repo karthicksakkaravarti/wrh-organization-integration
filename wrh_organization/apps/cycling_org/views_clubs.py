@@ -11,19 +11,37 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, TemplateView
 
 from .forms import JoinClubForm, EditClub
-from .models import Organization, OrganizationMember
+from .models import Organization, OrganizationMember, Member
 from ..usacycling.models import USACRiderLicense
 
 
 def is_org_admin(org: Organization, user) -> bool:
     try:
-        org_admin = OrganizationMember.objects.all().filter(Q(organization=org) & Q(member=user.member) & (Q(is_admin=True) | Q(is_master_admin=True))).exists()
+        org_admin = OrganizationMember.objects.all().filter(
+            Q(organization=org) & Q(member=user.member) & (Q(is_admin=True) | Q(is_master_admin=True))).exists()
         return org_admin or user.is_staff
     except:
         return None
-    
+
+
 def org_admins(org: Organization) -> list:
     return org.organizationmember_set.filter(Q(is_admin=True) | Q(is_master_admin=True))
+
+
+def is_teammate(member1: Member, member2: Member) -> bool:
+    """Org type must not be a Promoter"""
+    org1 = OrganizationMember.objects.filter(member=member1).values_list('organization', flat=True)
+    org2 = OrganizationMember.objects.filter(member=member2).values_list('organization', flat=True)
+    return Organization.objects.filter(Q(id__in=org1) & Q(id__in=org2) & ~Q(type='Promoter')).exists()
+
+
+def is_team_capatain(member: Member, captain: Member) -> bool:
+    """Org type must not be a Promoter
+    Org type must not be a Promoter"""
+    org1 = OrganizationMember.objects.filter(member=member).values_list('organization', flat=True)
+    org2 = OrganizationMember.objects.filter(Q(member=captain) and ~Q(organization__type='Promoter') and (
+            Q(is_admin=True) | Q(is_master_admin=True))).values_list('organization', flat=True)
+    return set(org1).intersection(set(org2))
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -125,6 +143,7 @@ def edit_club(request, pk=None):
 class ClubReport(LoginRequiredMixin, DetailView):
     template_name = 'BC/ClubReport.html'
     model = Organization
+
     def get_context_data(self, **kwargs):
         context = super(ClubReport, self).get_context_data(**kwargs)
         context['ClubAdmin'] = is_org_admin(context['object'], self.request.user)

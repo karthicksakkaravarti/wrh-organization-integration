@@ -1,26 +1,38 @@
 {% extends "BC/base_dv.html" %}
+{% load static %}
 {% block content %}
-    <div class="event-detail-outer">
-        <div class="event-detail-inner">
-            <div class="profile-detail-left">
-                <h3>{{ object.first_name }} {{ object.last_name }}</h3>
-                <h5>USAC License: {{ object.usac_license_number }} </h5>
-                <h5> {{ USACData.1.race_gender }}</h5>
-                {% for u in USACData %}
-                    <h5> license: {{ u.license_type|default:"N/A" }}</h5>
-                    <h5>Club: {{ u.club|default:"N/A" }}</h5>
-                    <h5>Area: {{ u.local_association }}</h5>
-                    ----
-                {% endfor %}
-                {% for k, v in object.social_media.items %}
-                    <h5>{{ k }}: {{ v }}</h5>
-                {% endfor %}
-            </div>
-            <div class="profile-detail-right">
-                {#TODO: Add race result#}
-                {#TODO: Add club membership#}
-                <h5> Race results here </h5>
+    <section class="content">
+        <div class="event-detail-outer">
+            <div class="container">
+                <div class="event-detail-inner">
+                    <div class="profile-detail-left">
+                        <b>You are view this profile with the following permisions:</b>
+                        <br>
+                        {{ ViewPermissions }}
+                            <h3>{{ object.first_name }} {{ object.last_name }}</h3>
+                            {% if 'user' in ViewPermissions %}
+                                {% for k, v in object.social_media.items %}
+                                    <h5>{{ k }}: {{ v }}</h5>
+                                {% endfor %}
+                                <h5>USAC License:</h5> {{ object.usac_license_number }}, <b>Is Verified:</b> {{ object.usac_license_number_verified|default:"NO" }}
+                            <h4>USAC Licenses:</h4>
+
+                            {% for u in USACData %}
+                                <ui>
+                                    <li>Type: <b>{{ u.license_type|default:"N/A" }}</b></li>
+                                <li>Club: {{ u.club|default:"N/A" }}</li>
+                                <li>Area: {{ u.local_association }}</li>
+                                </ui>
+                            {% endfor %}
+                            {% endif %}
+                    </div>
+                    <div class="profile-detail-right">
+                        {#TODO: Add race result#}
+                        {#TODO: Add club membership#}
+                        <h5> Race results here </h5>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
