@@ -11,7 +11,7 @@
     <div class="alert">
       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
       {% for error in form.non_field_errors %}
-          <strong>Error!</strong> {{ error }}
+      <strong>Error!</strong> {{ error }}
       {% endfor %}
     </div>
   </div>
@@ -23,12 +23,10 @@
   <input type="submit" value="Login" class="at-submit">
 
   <div class="links">
-    <a href="{% url 'sign-up-vue'%}">Register</a>
+    <a href="{% url 'sign-up'%}">Register</a>
     <a href="{% url 'password_reset'%}">Forgot password</a>
   </div>
 </form>
-
-
 
 <style>
     @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');

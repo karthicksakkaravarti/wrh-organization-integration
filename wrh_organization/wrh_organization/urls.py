@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from apps.cycling_org.ical_feed import WRHEventsIcalFeed
 from apps.cycling_org.views import ckeditor_upload_file, validate, Clubs, ClubDetails, ClubReport, Events, EventDetails, \
-    RaceSeriesList, ProfileDetail, BCsignin, Index, SignInView, event_edit, SignupView, SignOutView, BCPasswordResetDoneView,BCPasswordResetView, SignupViewVue
+    RaceSeriesList, ProfileDetail, BCsignin, Index, SignInView, event_edit, SignupView, SignOutView, BCPasswordResetDoneView,BCPasswordResetView
 from apps.cycling_org.views_results import RaceResults
 from apps.cycling_org.views_clubs import join_club
 
@@ -65,10 +65,9 @@ urlpatterns = [
     path('RaceResults/', RaceResults.as_view(), name='raceresults-dv'),
     path('raceseries/', RaceSeriesList.as_view(), name='raceseries-dv'),
     path('ProfileDetail/<int:pk>/', ProfileDetail.as_view(), name='profile-detail-dv'),
-    # BC - Authentication
+    # Django View - BC - Authentication
     path('signin/', SignInView.as_view(), name='sign-in'),
     path('signup/', SignupView.as_view(), name='sign-up'),
-    path('signup-vue/', SignupViewVue.as_view(), name='sign-up-vue'),
     path('signout/', SignOutView.as_view(), name='sign-out'),
     path('password_reset/', BCPasswordResetView.as_view(), name='password_reset'),
     path('password_reset_done/', BCPasswordResetDoneView.as_view(), name='password_reset_done'),

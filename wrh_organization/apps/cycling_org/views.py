@@ -297,7 +297,7 @@ def member_joined_org_email(user, org):
 
 
 class SignInView(TemplateView):
-    template_name = 'BC/sign_in.html'
+    template_name = 'BC/SignIn.html'
 
     @method_decorator(user_passes_test(lambda user: not user.is_authenticated, login_url='index'))
     def dispatch(self, *args, **kwargs):
@@ -316,13 +316,8 @@ class SignInView(TemplateView):
         else:
             return self.render_to_response({'form': form})
 
-
-class SignupViewVue(TemplateView):
-    template_name = 'BC/sign_up_vue.html'
-
-
 class SignupView(TemplateView):
-    template_name = 'BC/sign_up.html'
+    template_name = 'BC/SignUp.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -362,8 +357,9 @@ class SignOutView(TemplateView):
         logout(request)
         return redirect('/')
 
+
 class BCPasswordResetView(PasswordResetView):
-    template_name = 'BC/password_reset_vue.html'
+    template_name = 'BC/PasswordReset.html'
 
 class BCPasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'BC/password_reset_done.html'
+    template_name = 'BC/PasswordResetDone.html'
