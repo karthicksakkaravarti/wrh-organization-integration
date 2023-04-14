@@ -15849,7 +15849,12 @@ input::placeholder {
     display: table;
     clear: both;
 }
-
+.profile-detail-inner
+{
+  border-bottom: 1px solid #c7d3d2;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
 .profile-detail-left {
     width: 35%;
     float: left;
@@ -15867,6 +15872,7 @@ input::placeholder {
     font-size: 18px;
     line-height: 32px;
 }
+
 
 .eventspage-thumbnail {
 	position: relative;
