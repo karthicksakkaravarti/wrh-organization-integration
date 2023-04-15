@@ -2,6 +2,7 @@ from pathlib import Path
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from simple_history.models import HistoricalRecords
 from rest_framework.utils.encoders import JSONEncoder
 
 
@@ -33,6 +34,7 @@ class User(AbstractUser):
     opt_in_email = models.BooleanField(default=False, null=True, blank=True)
     terms_of_service = models.BooleanField(default=False, null=True, blank=True)
     user_agreement_waiver = models.BooleanField(default=False, null=True, blank=True)
+    history = HistoricalRecords()
     def save(self, *args, **kwargs):
         if not self.prefs:
             self.prefs = {}

@@ -11,6 +11,7 @@ from django.db import models
 from django.utils import timezone
 from model_utils import FieldTracker
 from phonenumber_field.modelfields import PhoneNumberField
+from simple_history.models import HistoricalRecords
 from rest_framework.utils.encoders import JSONEncoder
 
 from wrh_organization.helpers.fields_tracking import BaseFieldsTracking
@@ -60,6 +61,7 @@ class OrganizationMember(models.Model):
     member_fields = models.JSONField(null=True, blank=True, encoder=JSONEncoder)
     status = models.CharField(max_length=16, null=True, choices=STATUS_CHOICES)
     datetime = models.DateTimeField(auto_now_add=True)
+    history = HistoricalRecords()
     _tracker = FieldTracker()
 
     class Meta:
