@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'dynamic_preferences',
     'huey.contrib.djhuey',
     'turnstile',
+    'simple_history',
     # project apps
     'apps.wrh_account',
     'apps.cycling_org',
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
     'wrh_organization.helpers.middleware.InjectBackendVersionInHeadersMiddleware',
     'wrh_organization.helpers.middleware.InjectUiVersionInHeadersMiddleware',
     'wrh_organization.helpers.middleware.ThreadLocalMiddleware',
