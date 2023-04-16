@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'dynamic_preferences',
     'huey.contrib.djhuey',
+    'turnstile',
     # project apps
     'apps.wrh_account',
     'apps.cycling_org',
@@ -466,3 +467,4 @@ USAC_API_PASSWORD = '<USAC_API_PASSWORD>'
 
 X_FRAME_OPTIONS = 'ALLOWALL'
 XS_SHARING_ALLOWED_METHODS = ['POST','GET']
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

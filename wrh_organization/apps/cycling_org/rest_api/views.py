@@ -210,6 +210,7 @@ def _send_activation_email(user, request):
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email], html_message=message,
               fail_silently=False)
 
+
 class UserRegistrationView(viewsets.ViewSet):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)

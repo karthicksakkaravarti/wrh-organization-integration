@@ -1,9 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from django.contrib.auth.password_validation import validate_password
 from django.core.validators import RegexValidator
 from django.forms import ModelForm, DateInput
+from turnstile.fields import TurnstileField
 
 from .models import Event, OrganizationMember
+from ..wrh_account.models import User
 
 
 class UploadValidateFile(forms.Form):
@@ -66,6 +69,7 @@ class JoinClubForm(ModelForm):
 class SignInForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'at-input'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'at-input'}))
+    turnstile = TurnstileField()
 
 class SignUpForm(forms.Form):
     first_name = forms.CharField(required=True, label="First Name")
@@ -77,19 +81,36 @@ class SignUpForm(forms.Form):
     usac_number = forms.CharField(required=False, label="USAC Number", empty_value=None)
     gender = forms.ChoiceField(choices=[('', 'Select Gender'), ('M', 'Male'), ('F', 'Female'), ('O', 'Other')],
                                required=False)
-    phone_number = forms.CharField(required=False, validators=[RegexValidator(r'^\+?1?\d{9,15}$')],
-                                   label="Phone Number", empty_value=None)
-    address1 = forms.CharField(required=False, label="Address 1", empty_value=None)
-    address2 = forms.CharField(required=False, label="Address 2", empty_value=None)
-    city = forms.CharField(required=False, label="City", empty_value=None)
-    state = forms.CharField(required=False, label="State", empty_value=None)
-    zip_code = forms.CharField(required=True, label="Zip Code")
-    country = forms.CharField(required=False, initial="United States", label="Country", empty_value=None)
+    waiver_accepted = forms.BooleanField(label="I accept the waiver", required=True)
+    terms_of_service = forms.BooleanField(label="I agree to Terms and Service", required=True)
+    opt_out_email = forms.BooleanField(label="Opt out of promotional emails")
+    turnstile = TurnstileField(label="")
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     password = cleaned_data.get("password")
-    #     confirm_password = cleaned_data.get("confirm_password")
-    #
-    #     if password != confirm_password:
-    #         self.add_error("confirm_password", "Passwords do not match")
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email address is already in use.")
+        return email
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        validate_password(password)
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password != confirm_password:
+            self.add_error("confirm_password", "Passwords do not match")
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(label="Email", max_length=254, required=True)
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("There is no user registered with the specified email address.")
+        return email

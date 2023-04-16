@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.mail import send_mail
 from django.db.models import Q, Count
 from django.http import HttpResponse
@@ -15,7 +17,9 @@ from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.views.generic import DetailView
@@ -25,16 +29,19 @@ from django_ckeditor_5.views import storage as ck_storage
 from dynamic_preferences.registries import global_preferences_registry
 
 from apps.cycling_org.models import User
+from jwt.utils import force_bytes
 from wrh_organization.helpers.utils import get_random_upload_path
-from .forms import UploadValidateFile, EventEditForm, SignInForm, SignUpForm
+from .forms import UploadValidateFile, EventEditForm, SignInForm, SignUpForm, CustomPasswordResetForm
 from .models import Organization, OrganizationMember, Event, Member, RaceSeries
+from .rest_api.views import _send_activation_email
 from .validators import usac_license_on_record, valid_usac_licenses, wrh_club_match, wrh_bc_member, \
     wrh_club_memberships, wrh_email_match, wrh_local_association, wrh_usac_clubs, usac_club_match, bc_race_ready, \
     bc_individual_cup_ready, bc_team_cup_ready
 from .views_results import races, race_results
 from ..usacycling.models import USACRiderLicense
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
-
+from wrh_organization.helpers.utils import account_activation_token, send_sms, IsAdminOrganizationOrReadOnlyPermission, account_password_reset_token, to_dict, IsMemberPermission, random_id, \
+    APICodeException, check_turnstile_request
 global_pref = global_preferences_registry.manager()
 
 
@@ -325,6 +332,8 @@ class SignupView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        if global_pref.get('user_account__disabled_signup'):
+            raise PermissionDenied({'detail': 'Signup is disabled by admin'})
         form = SignUpForm(request.POST)
         if form.is_valid():
             # Create the user account
@@ -339,16 +348,20 @@ class SignupView(TemplateView):
                 password=form.cleaned_data['password'],  # Assuming 'password' is the field name for password
                 first_name=form.cleaned_data['first_name'],  # Assuming 'first_name' is the field name for first name
                 last_name=form.cleaned_data['last_name'],  # Assuming 'last_name' is the field name for last name
+                gender=form.cleaned_data['gender'],
+                birth_date=form.cleaned_data['date_of_birth'],
             )
+            user.more_data = {"member_data": {"country": "US", "usac_license_number": str(form.cleaned_data['usac_number'])}}
             user.opt_in_email = opt_out_email
             user.user_agreement_waiver = waiver
             user.terms_of_service = terms_of_service
             user.save()
-            # Log the user in
-            login(request, user)
+
+            # Sending Activation mal
+            _send_activation_email(user, request)
 
             # Redirect to a success page or the user's dashboard
-            return redirect("/")
+            return redirect(reverse('sign-in'))
         return self.render_to_response(self.get_context_data())
 
 
@@ -360,6 +373,25 @@ class SignOutView(TemplateView):
 
 class BCPasswordResetView(PasswordResetView):
     template_name = 'BC/PasswordReset.html'
+
+    def post(self, request, *args, **kwargs):
+        user = User.objects.filter(email=request.POST.get('email')).first()
+        if not user:
+            return HttpResponse({'error': 'A User with this email does not exists!'})
+        if not user.is_active:
+            return HttpResponse({'error': 'A User with this email is inactive.'})
+
+        subject = 'Reset Your Password'
+        message = render_to_string('cycling_org/email/user_recover_password.html', {
+            'user': user,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_password_reset_token.make_token(user),
+            'request': self.request
+        })
+
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email], html_message=message,
+                  fail_silently=False)
+        return redirect(reverse('password_reset_done'))
 
 class BCPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'BC/PasswordResetDone.html'

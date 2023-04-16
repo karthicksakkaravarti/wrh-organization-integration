@@ -6,22 +6,6 @@
   <h2>Sign Up</h2>
   {% csrf_token %}
   {{ form }}
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="waiver" name="waiver">
-    <label class="form-check-label" for="waiver">I agree to the waiver</label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="terms_of_service"
-      name="terms_of_service">
-    <label class="form-check-label" for="terms_of_service">I agree to Terms and
-      Service</label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="opt_out_email"
-      name="opt_out_email">
-    <label class="form-check-label" for="opt_out_email">Opt out of promotional
-      emails</label>
-  </div>
   <button type="submit" class="btn btn-primary">Signup</button>
 </form>
 
