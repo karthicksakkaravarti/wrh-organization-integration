@@ -1,7 +1,12 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView, DetailView
 
-from .forms import JoinClubForm, EditClub
+from .forms import JoinClubForm
 from .models import Organization, OrganizationMember, Member
 from ..usacycling.models import USACRiderLicense
 

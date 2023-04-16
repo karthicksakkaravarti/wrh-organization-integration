@@ -52,7 +52,7 @@ def is_org_admin(org: Organization, user) -> bool:
             Q(member=user) & (Q(is_admin=True) | Q(is_master_admin=True))).exists()
     except:
         return None
-def user_profile_permissions(profile: Member, user: User | None) -> list[str]:
+def user_profile_permissions(profile: Member, user: User):
     """What is the user allowed to see?
     returns a list:
     - public: Public
