@@ -37,6 +37,7 @@ from .rest_api.views import _send_activation_email
 from .validators import usac_license_on_record, valid_usac_licenses, wrh_club_match, wrh_bc_member, \
     wrh_club_memberships, wrh_email_match, wrh_local_association, wrh_usac_clubs, usac_club_match, bc_race_ready, \
     bc_individual_cup_ready, bc_team_cup_ready
+from .views_clubs import is_teammate, is_team_capatain
 from .views_results import races, race_results
 from ..usacycling.models import USACRiderLicense
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
@@ -51,6 +52,30 @@ def is_org_admin(org: Organization, user) -> bool:
             Q(member=user) & (Q(is_admin=True) | Q(is_master_admin=True))).exists()
     except:
         return None
+def user_profile_permissions(profile: Member, user: User | None) -> list[str]:
+    """What is the user allowed to see?
+    returns a list:
+    - public: Public
+    - user: logged in user
+    - teammate: Teammate: (in the same club)
+    - teamcaptain: Club/org Admin: Admin of a club the user is a member of
+    - bcadmin: BC admin: Admin of the BC
+    - iam: The user is the profile owner
+    """
+    permissions = ['public']
+    if user.is_authenticated:
+        permissions.append('user')
+    if user.is_staff:
+        permissions.append('bcadmin')
+    if user == profile.user:
+        permissions.append('iam')
+    if is_teammate(profile, user.member):
+        permissions.append('teammate')
+    if is_team_capatain(profile, user.member):
+        permissions.append('team_captain')
+    if user.member == profile:
+        permissions.append('iam')
+    return permissions
 
 
 @require_http_methods(["POST"])
@@ -283,6 +308,7 @@ class ProfileDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileDetail, self).get_context_data(**kwargs)
+        context['ViewPermissions'] = user_profile_permissions(context['object'], self.request.user)
         if context['object'].usac_license_number and context['object'].usac_license_number_verified:
             lic = context['object'].usac_license_number  # Get and use it to query USACRider
             context['USACData'] = USACRiderLicense.objects.filter(license_number=lic)
