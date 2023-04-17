@@ -23,10 +23,18 @@ def organization_logo_file_path_func(instance, filename):
     from wrh_organization.helpers.utils import get_random_upload_path
     return get_random_upload_path(str(Path('uploads', 'cycling_org', 'organization', 'logo')), filename)
 
+def organization_hero_file_path_func(instance, filename):
+    from wrh_organization.helpers.utils import get_random_upload_path
+    return get_random_upload_path(str(Path('uploads', 'cycling_org', 'organization', 'hero')), filename)
+
 
 def event_logo_file_path_func(instance, filename):
     from wrh_organization.helpers.utils import get_random_upload_path
     return get_random_upload_path(str(Path('uploads', 'cycling_org', 'event', 'logo')), filename)
+
+def event_hero_file_path_func(instance, filename):
+    from wrh_organization.helpers.utils import get_random_upload_path
+    return get_random_upload_path(str(Path('uploads', 'cycling_org', 'event', 'hero')), filename)
 
 
 def event_attachment_file_path_func(instance, filename):
@@ -234,6 +242,7 @@ class Organization(models.Model):
     zipcode = models.CharField(max_length=10, blank=True, null=True)
     about = models.TextField(null=True, blank=True)
     logo = models.ImageField(null=True, blank=True, upload_to=organization_logo_file_path_func)
+    # hero = models.ImageField(null=True, blank=True, upload_to=organization_hero_file_path_func)
     signup_config = models.JSONField(null=True, blank=True)
     membership_plans = models.JSONField(null=True, blank=True, encoder=JSONEncoder)
     member_fields_schema = models.JSONField(null=True, blank=True)
@@ -242,6 +251,7 @@ class Organization(models.Model):
     members = models.ManyToManyField('Member', related_name='organizations', through=OrganizationMember)
     member_orgs = models.ManyToManyField('Organization', related_name='organizations', through=OrganizationMemberOrg)
     membership_open = models.BooleanField(default=False, null=True, blank=True)
+    approved = models.BooleanField(default=False, null=True) # New orgs must be approved by BC staff
     rss_url = models.TextField(default=None, null=True, blank=True)
     waiver_text = models.TextField(default=None, null=True, blank=True)
     _tracker = FieldTracker()
@@ -462,6 +472,25 @@ class Member(models.Model):
 
 
 class Event(models.Model):
+    """
+    Name: This is the event name or Title
+    Description: This is a short un formated text about the event
+    Start_date:
+    End_date:
+    organizer_email: This is private
+    Address info: ...
+    Website: Event website, facebook page....
+    registration_website: Where a user would register for the event.
+    logo: Small image, logo for the event.
+    Tags: List of event types
+    more_data: Json data: Contains
+    - Banner image
+    - ?
+    organization: the org that "ownes" the event
+    source: ?
+    ----
+    approved: Has a BC admin approved the event for public viewing.
+    """
     PUBLISH_TYPE_PUBLIC = 'public'
     PUBLISH_TYPE_ORG_PUBLIC = 'org_public'
     PUBLISH_TYPE_ORG_PRIVATE = 'org_private'
@@ -481,6 +510,7 @@ class Event(models.Model):
     website = models.URLField(max_length=500, null=True, blank=True)
     registration_website = models.URLField(max_length=500, null=True, blank=True)
     logo = models.ImageField(null=True, blank=True, upload_to=event_logo_file_path_func)
+    # hero = models.ImageField(null=True, blank=True, upload_to=event_hero_file_path_func)
     tags = ArrayField(
         models.CharField(max_length=100, blank=True),
         size=50,
@@ -497,7 +527,7 @@ class Event(models.Model):
     permit_no = models.CharField(max_length=25, blank=True, null=True)
     is_usac_permitted = models.BooleanField(default=False)
     featured_event = models.BooleanField(default=False)
-
+    approved = models.BooleanField(default=False, null=True)
     publish_type = models.CharField(max_length=32, choices=PUBLISH_TYPE_CHOICES, null=True)
     shared_org_perms = models.JSONField(null=True, blank=True, editable=False)  # {org_id: 'view|edit'}
     create_datetime = models.DateTimeField(auto_now_add=True)
