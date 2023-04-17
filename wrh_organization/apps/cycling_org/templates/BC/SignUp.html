@@ -1,0 +1,69 @@
+{% extends "BC/base_dv.html" %}
+{% load static %}
+{% block content %}
+
+<form method="post" class="signup">
+  <h2>Sign Up</h2>
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit" class="btn btn-primary">Signup</button>
+</form>
+
+
+<style>
+
+      .signup {
+  margin: 20px auto;
+  padding: 40px 50px;
+  max-width: 700px;
+  border-radius: 5px;
+  background: #fff;
+}
+  .signup input {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin: 10px 0;
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 2px;
+    font-family: Raleway, sans-serif;
+  }
+
+.signup input[type=text],
+.signup input[type=password] {
+  border: 1px solid #c0c0c0;
+  transition: .2s;
+}
+
+.signup input[type=text]:hover {
+  border-color: #e85628;
+  outline: none;
+  transition: all .2s ease-in-out;
+}
+
+.signup input[type=submit] {
+  border: none;
+  background: #e85628;
+  color: white;
+  font-weight: bold;
+  transition: 0.2s;
+  margin: 20px 0px;
+}
+
+.signup input[type=submit]:hover {
+  background: black;
+}
+
+  .signup h2 {
+    margin: 20px 0 0;
+    color: #5ec6c6;
+    font-size: 28px;
+  }
+
+.signup p {
+  margin-bottom: 40px;
+}
+
+  </style>
+{% endblock %}

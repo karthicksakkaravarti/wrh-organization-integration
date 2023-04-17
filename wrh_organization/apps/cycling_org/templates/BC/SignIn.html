@@ -1,0 +1,150 @@
+{% extends "BC/base_dv.html" %}
+{% load static %}
+{% block content %}
+
+<form class="login" method="post">
+  <h2>Welcome!</h2>
+  <p>Please log in</p>
+  {% csrf_token %}
+  {% if form.errors %}
+  <div class="at-error">
+    <div class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      {% for error in form.non_field_errors %}
+      <strong>Error!</strong> {{ error }}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+
+  {{ form.username.label_tag }} {{ form.username }}
+  {{ form.password.label_tag }} {{ form.password }}
+  {{ form.turnstile }}
+  <input type="submit" value="Login" class="at-submit">
+
+  <div class="links">
+    <a href="{% url 'sign-up'%}">Register</a>
+    <a href="{% url 'password_reset'%}">Forgot password</a>
+  </div>
+</form>
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+
+.login {
+  margin: 20px auto;
+  padding: 40px 50px;
+  max-width: 500px;
+  border-radius: 5px;
+  background: #fff;
+}
+  .login input {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin: 10px 0;
+    padding: 14px 12px;
+    font-size: 16px;
+    border-radius: 2px;
+    font-family: Raleway, sans-serif;
+  }
+
+.login input[type=text],
+.login input[type=password] {
+  border: 1px solid #c0c0c0;
+  transition: .2s;
+}
+
+.login input[type=text]:hover {
+  border-color: #e85628;
+  outline: none;
+  transition: all .2s ease-in-out;
+}
+
+.login input[type=submit] {
+  border: none;
+  background: #e85628;
+  color: white;
+  font-weight: bold;
+  transition: 0.2s;
+  margin: 20px 0px;
+}
+
+.login input[type=submit]:hover {
+  background: black;
+}
+
+  .login h2 {
+    margin: 20px 0 0;
+    color: #5ec6c6;
+    font-size: 28px;
+  }
+
+.login p {
+  margin-bottom: 40px;
+}
+
+.links {
+  display: table;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #c0c0c0;
+  margin-bottom: 10px;
+}
+
+.links a {
+  display: table-cell;
+  padding-top: 10px;
+}
+
+.links a:first-child {
+  text-align: left;
+}
+
+.links a:last-child {
+  text-align: right;
+}
+
+  .login h2,
+  .login p,
+  .login a {
+    text-align: center;
+  }
+
+.login a {
+  text-decoration: none;
+  font-size: .8em;
+}
+
+.login a:visited {
+  color: inherit;
+}
+
+.login a:hover {
+  text-decoration: underline;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+</style>
+{% endblock%}

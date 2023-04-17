@@ -33,3 +33,4 @@ semver==3.0.0
 django-cal==0.4.2
 django-allauth==0.54.0 # https://github.com/pennersr/django-allauth
 django-simple-history==3.3.0
+django-turnstile==0.1.0
