@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'dynamic_preferences',
     'huey.contrib.djhuey',
+    'turnstile',
     'simple_history',
     # project apps
     'apps.wrh_account',
