@@ -64,7 +64,7 @@ urlpatterns = [
     path('Club/Edit/<int:pk>/', edit_club, name='edit-club-dv'),
     path('Club/Report/<int:pk>/', ClubReport.as_view(), name='club-report-dv'),
     path('RaceResults/', RaceResults.as_view(), name='raceresults-dv'),
-    path('RaceSeries/', RaceSeriesList.as_view(), name='raceseries-dv'),
+    path('RaceSeries/', RaceSeriesList.as_view(), name='RaceSeries'),
     path('ProfileDetail/<int:pk>/', ProfileDetail.as_view(), name='profile-detail-dv'),
     # BC - Authentication
     path('signin/', SignInView.as_view(), name='sign-in'),

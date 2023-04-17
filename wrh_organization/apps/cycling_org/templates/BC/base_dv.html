@@ -53,7 +53,7 @@
                 <div class="container-fluid">
                     <!-- branding -->
                     <div class="col-xs-4 col-sm-3">
-                        <a href="https://www.bicyclecolorado.org/"
+                        <a href="{% url 'index' %}"
                             class="site-logo">
                             <img
 {#                                src="https://www.bicyclecolorado.org/wp-content/uploads/2018/02/BCLogo_RGB_FNL.svg"#}
@@ -79,7 +79,7 @@
                                             menu-item-type-post_type
                                             menu-item-object-page
                                             menu-item-25568"><a
-                                                href="https://www.bicyclecolorado.org/">
+                                                href="https://events.bicyclecolorado.org/">
                                                 BICYCLE COLORADO ADVOCACY</a>
                                         </li>
 
@@ -132,8 +132,11 @@
                                                                 class="glyphicon
                                                                 glyphicon-chevron-down"></span></a>
                                                         <ul class="sub-menu" style="">
+                                                            <li>
+                                                                <a href="{% url 'raceresults-dv' %}">Race Results</a>
+                                                            </li>
                                                             <li >
-                                                                <a href="">Race series</a>
+                                                                <a href="{% url 'RaceSeries' %}">Race Series</a>
                                                             </li>
                                                         </ul>
 
