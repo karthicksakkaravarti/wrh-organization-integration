@@ -251,6 +251,7 @@ class Organization(models.Model):
     members = models.ManyToManyField('Member', related_name='organizations', through=OrganizationMember)
     member_orgs = models.ManyToManyField('Organization', related_name='organizations', through=OrganizationMemberOrg)
     membership_open = models.BooleanField(default=False, null=True, blank=True)
+    approved = models.BooleanField(default=False, null=True) # New orgs must be approved by BC staff
     rss_url = models.TextField(default=None, null=True, blank=True)
     waiver_text = models.TextField(default=None, null=True, blank=True)
     _tracker = FieldTracker()
