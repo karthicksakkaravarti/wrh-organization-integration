@@ -11,16 +11,37 @@
         <br>
         <br>
         <br>
-        {% if user.is_authenticated and ClubAdmin %}
-            <form method="post" enctype="multipart/form-data">
+        {% if user.is_staff or ClubAdmin %}
+            {% if club.name %}
+                <h1>Editing {{ club.name }}</h1>
+            {% else %}
+                <h1>Create a new Club</h1>
+            {% endif %}
+            <form style="margin:20px" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-            <H3>CLUB TYPE: {{ Club.type }}</H3>
-                <b>The Form</b>
-                {% for f in form %}}
-                    {{ f.label_tag }}
-                    {{ f }}
-                    <br>
-                {% endfor %}
+                <b>Create a new Organization</b>
+                Type: {{ form.type }}
+                <ui>
+                    <li>{{ form.name.label_tag }} {{ form.name }}</li>
+                    <li>{{ form.about.label_tag }} {{ form.about }}</li>
+                    <li>{{ form.website.name }} {{ form.website }}</li>
+                    <li>{{ form.email.name }} {{ form.email }}</li>
+                    <li>{{ form.phone.name }} {{ form.phone }}</li>
+                    <li>{{ form.address.name }} {{ form.address }}</li>
+                    <li>{{ form.city.name }} {{ form.city }}</li>
+                    <li>{{ form.state.name }} {{ form.state }}</li>
+                    <li>{{ form.zip.name }} {{ form.zip }}</li>
+                    <li>{{ form.country.name }} {{ form.country }}</li>
+{#                    TODO: Description is in a json field. move it to a separate field#}
+                    <li>{{ form.description.name }} {{ form.description }}</li>
+{#                    TODO: Show a preview is there is an image#}
+                    <li>{{ form.logo.name }} {{ form.logo }}</li>
+{#                    TODO: Show a preview of the hero image#}
+                    <li>{{ form.hero.name }} {{ fomr.hero }}</li>
+                    <li>{{ form.waiver_text.name }} {{ form.waiver_text }}</li>
+                    TODO: Approved is a hidden field, if the user.is_staff, then Approved, otherwise not.
+                    <li>{{ form.approved.name }} {{ form.approved }}</li>
+                </ui>
                 <button class="btn btn-primary my-4" type="submit">Submit</button>
             </form>
         {% endif %}

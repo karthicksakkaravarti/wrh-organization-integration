@@ -11,7 +11,9 @@ FRONTEND_DIR=${BASE_DIR}/wrh_organization/FRONTEND/wrh_organization_ui
 FE_INC_VER_TYPE=patch
 BE_INC_VER_TYPE=patch
 PREV_RELEASE_COMMIT=$(git log master --grep "\[RELEASE VERSION\]" -1 --format=format:"%H")
+echo "Check for Frontend Diff"
 FE_HAS_COMMIT=$(git diff --quiet ${PREV_RELEASE_COMMIT} -- ${FRONTEND_DIR}  || echo changed)
+echo "Check for Backend Diff"
 BE_HAS_COMMIT=$(git diff --quiet ${PREV_RELEASE_COMMIT} -- ${BASE_DIR} ':!wrh_organization/FRONTEND/wrh_organization_ui'  || echo changed)
 if [ -z "${FE_HAS_COMMIT}" ]; then
   FE_INC_VER_TYPE="ignore"
