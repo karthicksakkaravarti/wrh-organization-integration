@@ -120,7 +120,7 @@ def edit_club(request, pk=None):
             subject = 'New Organization waiting approval'
             message = render_to_string('cycling_org/email/new_club_email.html', {
                 'user': request.user,
-                'name': form.id_name,
+                'name': form.cleaned_data['name'],
                 'host': settings.HOSTNAME})
             send_mail(subject, '', settings.DEFAULT_FROM_EMAIL,
                       ["developer@bicyclecolorado.org"], html_message=message,
