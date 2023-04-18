@@ -115,14 +115,13 @@ def edit_club(request, pk=None):
     if request.method == 'POST':
         form = EditClub(request.POST)
         if form.is_valid():
-            # form.save()
+            form.save()
             print(form)
             subject = 'New Organization waiting approval'
             message = render_to_string('cycling_org/email/new_club_email.html', {
-        'user': request.user,
-        'name': form.name,
-        'host': settings.HOSTNAME})
-            # TODO: make template for email
+                'user': request.user,
+                'name': form.id_name,
+                'host': settings.HOSTNAME})
             send_mail(subject, '', settings.DEFAULT_FROM_EMAIL,
                       ["developer@bicyclecolorado.org"], html_message=message,
                       fail_silently=False)
