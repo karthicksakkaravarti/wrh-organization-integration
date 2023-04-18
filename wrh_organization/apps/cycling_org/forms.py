@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.password_validation import validate_password
-from django.core.validators import RegexValidator
 from django.forms import ModelForm, DateInput
 from turnstile.fields import TurnstileField
 
@@ -61,8 +60,8 @@ class EventEditForm(ModelForm):
 class JoinClubForm(ModelForm):
     class Meta:
         model = OrganizationMember
-        fields = ['organization', 'member', 'org_member_uid', 'is_admin',  'is_master_admin', 'membership_price', 
-                  'is_active', 'status', 'start_date', 'exp_date', 'member_fields',]
+        fields = ['organization', 'member', 'org_member_uid', 'is_admin', 'is_master_admin', 'membership_price',
+                  'is_active', 'status', 'start_date', 'exp_date', 'member_fields', ]
         labels = {'start_date': 'Start Date', 'exp_date': 'Expiration Date'}
 
 
@@ -70,6 +69,7 @@ class SignInForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'at-input'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'at-input'}))
     turnstile = TurnstileField()
+
 
 class SignUpForm(forms.Form):
     first_name = forms.CharField(required=True, label="First Name")
@@ -82,7 +82,8 @@ class SignUpForm(forms.Form):
     gender = forms.ChoiceField(choices=[('', 'Select Gender'), ('M', 'Male'), ('F', 'Female'), ('O', 'Other')],
                                required=False)
     waiver_accepted = forms.BooleanField(label="I accept the waiver", required=True, widget=forms.CheckboxInput())
-    terms_of_service = forms.BooleanField(label="I agree to Terms and Service", required=True, widget=forms.CheckboxInput())
+    terms_of_service = forms.BooleanField(label="I agree to Terms and Service", required=True,
+                                          widget=forms.CheckboxInput())
     opt_out_email = forms.BooleanField(label="Opt out of promotional emails", widget=forms.CheckboxInput())
     turnstile = TurnstileField(label="")
 
@@ -119,9 +120,9 @@ class CustomPasswordResetForm(PasswordResetForm):
 class EditClub(ModelForm):
     class Meta:
         model = Organization
-        fields = ['name', 'type']
+        fields = ['name', 'website', 'type', 'social_media', 'phone', 'email', 'address', 'country', 'city', 'state',
+                  'zipcode', 'about', 'logo', 'waiver_text', 'approved']
 
-        widgets = {'type': forms.HiddenInput()}
         labels = {
             'name': 'Club Name',
             'type': 'Club, Promoter',
@@ -130,3 +131,4 @@ class EditClub(ModelForm):
             'name': 'Enter the name of the club.',
             'type': 'Choose a Organization type',
         }
+        error_messages = {}

@@ -84,16 +84,9 @@ class ClubDetails(DetailView):
 
 @login_required
 def join_club(request, pk=None):
-    if request.method == 'POST':
-        form = JoinClubForm(request.POST)
-        if form.is_valid():
-            # TODO: save the form
-            # form.save()
-            print(form)
-            messages.success(request, 'TEST: You have successfully joined the club.')
-        else:
-            messages.error(request, 'Please correct the error below.')
-    elif request.method == 'GET':
+    """ We only what a user to join a selected club from the club page.
+    This should always be a get request."""
+    if request.method == 'GET':
         if id:
             club = get_object_or_404(Organization, id=pk)
             context = {'Club': club}
@@ -124,20 +117,27 @@ def edit_club(request, pk=None):
         if form.is_valid():
             # form.save()
             print(form)
+            subject = 'New Organization waiting approval'
+            message = render_to_string('cycling_org/email/new_club_email.html', {
+        'user': request.user,
+        'name': form.name,
+        'host': settings.HOSTNAME})
+            # TODO: make template for email
+            send_mail(subject, '', settings.DEFAULT_FROM_EMAIL,
+                      ["developer@bicyclecolorado.org"], html_message=message,
+                      fail_silently=False)
             messages.success(request, 'TEST: You have successfully joined the club.')
         else:
             messages.error(request, 'Please correct the error below.')
     elif request.method == 'GET':
         if pk:
-            try:
-                club = get_object_or_404(Organization, id=pk)
-                context = {'Club': club,
-                           'form': EditClub(initial={'organization': club, 'member': request.user.member})}
-                context['ClubAdmin'] = is_org_admin(club, request.user)
-
-            except AttributeError:
-                context = None
+            print(pk)
+            club = get_object_or_404(Organization, id=pk)
+            context = {'Club': club, 'form': EditClub(instance=club), 'id': pk, 'member': request.user.member,
+                       'ClubAdmin': is_org_admin(club, request.user)}
             return render(request, 'BCforms/EditClub.html', context)
+    form = EditClub()
+    return render(request, 'BCforms/EditClub.html', {'form': form})
 
 
 class ClubReport(LoginRequiredMixin, DetailView):

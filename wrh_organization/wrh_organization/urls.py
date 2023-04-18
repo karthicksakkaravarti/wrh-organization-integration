@@ -61,6 +61,7 @@ urlpatterns = [
     path('Clubs/', Clubs.as_view(), name='clubs-dv'),
     path('Club/<int:pk>/', ClubDetails.as_view(), name='club-details-dv'),
     path('Club/Join/<int:pk>/', join_club, name='join-club-dv'),
+    path('Club/Edit/', edit_club, name='edit-club-dv'),
     path('Club/Edit/<int:pk>/', edit_club, name='edit-club-dv'),
     path('Club/Report/<int:pk>/', ClubReport.as_view(), name='club-report-dv'),
     path('RaceResults/', RaceResults.as_view(), name='raceresults-dv'),
