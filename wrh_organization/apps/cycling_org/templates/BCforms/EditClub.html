@@ -19,8 +19,16 @@
             {% endif %}
             <form style="margin:20px" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <b>Create a new Organization</b>
-                Type: {{ form.type }}
+                {% if not Club.name %}
+                    <b>Create a new Organization</b>
+                    <br>
+                    Choose and Organization type: {{ form.type }}
+                {% else %}
+                    Editing <b>{{ Club.name }}</b>
+                    Organization type: <b>{{ Club.type.upper }}</b>
+                    <input type="hidden" name="type" value="{{ Club.type }}">
+                {% endif %}
+
                 <ui>
                     <li>{{ form.name.label_tag }} {{ form.name }}</li>
                     <li>{{ form.about.label_tag }} {{ form.about }}</li>

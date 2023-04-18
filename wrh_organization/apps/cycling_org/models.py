@@ -161,6 +161,12 @@ class OrganizationMemberOrg(models.Model):
 
 @FieldsTracking.register()
 class Organization(models.Model):
+    """
+    
+    prefs: Json field
+    - banner_image: The image to use as the banner
+    - information_board_content: The content to show on the information board or long description
+    """
     PERIODS_DAYS = {'1week': 7, '1month': 30, '3month': 120, '6month': 180, '1year': 365, '2year': 730}
     MEMBER_FIELDS_SCHEMA_VALIDATOR = {
         'type': 'list', 'empty': True, 'required': False,
@@ -483,12 +489,13 @@ class Event(models.Model):
     registration_website: Where a user would register for the event.
     logo: Small image, logo for the event.
     Tags: List of event types
-    more_data: Json data: Contains
-    - Banner image
-    - ?
+    more_data: Json data: Contains,
+    - panels: list of panels, like youtube or maps
     organization: the org that "ownes" the event
     source: ?
-    ----
+    prefs: Json field
+    - banner_image: The image to use as the banner
+    - information_board_content: The content to show on the information board
     approved: Has a BC admin approved the event for public viewing.
     """
     PUBLISH_TYPE_PUBLIC = 'public'
