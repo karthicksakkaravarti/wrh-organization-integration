@@ -22,7 +22,7 @@ def usac_license_on_record(license_number: str) -> str:
         return 'NOT_VERIFIED'
 
 
-def valid_usac_licenses(license_number: str) -> str | list[str, ...]:
+def valid_usac_licenses(license_number: str):
     """Get status of USAC license number from USAC records (model)"""
     try:
         if license_number == 'ONE DAY':
@@ -112,7 +112,7 @@ def wrh_email_match(email: str) -> str:
         return 'ERROR'
 
 
-def wrh_local_association(license_number: str) -> list[str] | str:
+def wrh_local_association(license_number: str):
     try:
         m = USACRiderLicense.objects.filter(license_number=license_number)
         return [t.local_association for t in m]
@@ -120,7 +120,7 @@ def wrh_local_association(license_number: str) -> list[str] | str:
         return 'ERROR'
 
 
-def wrh_usac_clubs(license_number: str) -> list[str] | str:
+def wrh_usac_clubs(license_number: str):
     try:
         m = USACRiderLicense.objects.filter(license_number=license_number)
         return [t.data['club'] for t in m]
