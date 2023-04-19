@@ -113,10 +113,10 @@ def member_joined_org_email(user, org):
 def edit_club(request, pk=None):
     """ This is for creating or editing a club """
     if request.method == 'POST':
-        form = EditClub(request.POST)
+        form = EditClub(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            print(form)
+            # print(request.FILES['file'])
             subject = 'New Organization waiting approval'
             message = render_to_string('cycling_org/email/new_club_email.html', {
                 'user': request.user,
