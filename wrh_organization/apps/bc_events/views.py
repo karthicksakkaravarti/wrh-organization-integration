@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from apps.cycling_org.views import global_pref
-from django.shortcuts import render
 from .forms import SignInForm
 
 class Index(TemplateView):
@@ -15,7 +14,6 @@ class Index(TemplateView):
         context['Banner'] = global_pref['site_ui__banner_image']
         context['InfoBoard'] = global_pref['site_ui__home_information_board']
         return context
-
 
 
 class SignInView(TemplateView):
@@ -38,9 +36,3 @@ class SignInView(TemplateView):
         else:
             print(form)
             return self.render_to_response({'form': form})
-def sign_in(request):
-    form = SignInForm(request.POST or None)
-    if form.is_valid():
-        # Add your authentication logic here
-        pass
-    return render(request, 'auth/sign_in.html', {'form': form})
