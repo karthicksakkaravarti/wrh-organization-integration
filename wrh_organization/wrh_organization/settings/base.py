@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'apps.wrh_account',
     'apps.cycling_org',
     'apps.usacycling',
-    'apps.constant_contact'
+    'apps.constant_contact',
+    'apps.bc_events'
 ]
 
 MIDDLEWARE = [
@@ -102,7 +103,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wrh_organization.wsgi.application'
 ASGI_APPLICATION = 'wrh_organization.asgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

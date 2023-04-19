@@ -1,0 +1,56 @@
+{% extends "bc_events_base.html" %}
+{% block content %}
+{% load static %}
+    <br>
+    <br>
+    <br>
+    <section class="container">
+    <section class="banner page-herosection">
+        <img src="{{ Banner.url }}" alt="" class="img-responsive">
+    </section>
+        <div class="header-content-container">
+            {{ InfoBoard|safe }}
+        </div>
+        <div class="colo-events-outer">
+            <div class="container">
+                <div class="coloevents-inner">
+                <hr>
+                <h1 text-align="center">Featured Events</h1>
+                    <div class="colo-eventsrow">
+                        {% if Featured|length >= 1 %}
+                            {% for event in Featured %}
+                                <div class="colo-eventbox">
+                                    <div class="eventspage-thumbnail">
+                                        {% if event.logo %}
+                                                <img
+                                                        src="{{ event.logo.url }}"
+                                                        alt="Event Logo" title="" class="img-responsive">
+                                        {% endif %}
+                                    </div>
+                                    <h3><a href="{% url 'events-details-dv' event.id %}"
+                                           class=" ">{{ event.name }}</a>
+                                    </h3>
+                                    <div class="text-center" style="display: flex;justify-content: space-evenly;">
+                                        {% if event.is_usac_permitted %}
+                                            <img style="max-width:17px" src="../static/images/USACycling_Logo_noborder.svg" alt="USACycling"
+                                                 width="25" height="25">
+                                        {% endif %}
+                                    </div>
+                                    <span class="date" style="margin-top:4px;display: flex;justify-content: space-around;">{{ event.start_date }}</span>
+                                    <div class="text-center" style="margin-top:4px;">
+                                    <h5> {% if event.city %} {{ event.city }},&nbsp; {% endif %}{% if event.state %} {{ event.state }}{% endif %} </h5>
+                                    </div>
+                                    {% if event.description %}
+                                        <p>{{ event.description|truncatechars:100 }}</p>
+                                    {% endif %}
+                                    {# <a href="{% url 'events-details-dv' event.id%}"#}
+                                    {# class="viewevent-btn">View Event</a>#}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

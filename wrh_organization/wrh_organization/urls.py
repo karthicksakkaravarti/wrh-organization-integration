@@ -72,6 +72,9 @@ urlpatterns = [
     path('signout/', SignOutView.as_view(), name='sign-out'),
     path('password_reset/', BCPasswordResetView.as_view(), name='password_reset'),
     path('password_reset_done/', BCPasswordResetDoneView.as_view(), name='password_reset_done'),
+    # APP - BC Events
+    re_path(r'bc_events/', include('apps.bc_events.urls')),  # CC integration
+
 ]
 
 if settings.DEBUG:
