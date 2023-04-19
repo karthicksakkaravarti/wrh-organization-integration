@@ -20,9 +20,10 @@ from django.views.static import serve
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from apps.cycling_org.ical_feed import WRHEventsIcalFeed
-from apps.cycling_org.views import ckeditor_upload_file, validate, Events, EventDetails, \
-    ProfileDetail, BCsignin, Index, SignInView, event_edit, SignInView, event_edit, SignupView, SignOutView, BCPasswordResetView, BCPasswordResetDoneView
+from apps.cycling_org.views import ckeditor_upload_file, validate, \
+    ProfileDetail, Index, SignInView, SignupView, SignOutView, BCPasswordResetView, BCPasswordResetDoneView
 from apps.cycling_org.views_clubs import Clubs, ClubDetails, ClubReport, join_club, edit_club
+from apps.cycling_org.views_events import Events, EventDetails, event_edit
 from apps.cycling_org.views_results import RaceResults, RaceSeriesList
 
 # login url https://events.bicyclecolorado.org/static/vue/index.html#/auth?next=%2Fhome
@@ -53,11 +54,10 @@ urlpatterns = [
     re_path(r'^feed/calendar/ics', WRHEventsIcalFeed(), name='ics'),
     # Django View - BC
     path('validator/', validate, name='validate'),
-    path('bcsignin/', BCsignin.as_view(), name='bcsignin-dv'),
     path('Events/', Events.as_view(), name='events-dv'),
     path('Event/<int:pk>/', EventDetails.as_view(), name='events-details-dv'),
     path('Event/Form/', event_edit, name='event_edit-dv'),
-    path('Event/Form/<int:id>/', event_edit, name='event_edit_id-dv'),
+    path('Event/Form/<int:pk>/', event_edit, name='event_edit_id-dv'),
     path('Clubs/', Clubs.as_view(), name='clubs-dv'),
     path('Club/<int:pk>/', ClubDetails.as_view(), name='club-details-dv'),
     path('Club/Join/<int:pk>/', join_club, name='join-club-dv'),
